@@ -4,6 +4,14 @@
 
 * Avoir fais les exercices précédents
 
+## Optionnel - Paramètrer l'URL
+
+* Se connecter en SSH sur votre instance
+* Editer (en sudo) le fichier /etc/share/grafana/conf/defaults.ini 
+* Remplacer la ligne `domain = localhost` par `domain = votredomaine` (remplacer votredomaine par le domaine de votre instance (sans protocole ni port)
+* Enregistrer le fichier
+* Quitter le SSH
+
 ## Partage d'un Panel
 
 * Créer un panel qui affiche le nombre de conteneurs
