@@ -25,7 +25,7 @@
 * Choisir un nom de variable, puis le type de variable (ici nous choisissons Query pour récupérer une liste dynamique de nom de container)
 * Ensuite vous définissez le filtre à appliquer 
 
-![](../img/exo4/add_variable.png)
+![](img/exo4/add_variable.png)
 * Puis utiliser cette variable dans vos requêtes pour chacun de vos panels afin de filtrer les données
 
-![](../img/exo4/variable_query.png)
+![](img/exo4/variable_query.png)
