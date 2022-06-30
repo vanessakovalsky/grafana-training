@@ -13,7 +13,7 @@
 
 ## Partage du tableau de bord
 
-* Exporter votre dashboard des exercices précédents, et mettre le json récupérer dans Teams
+* Exporter votre dashboard des exercices précédents, et mettre le fichier json récupéré dans Teams
 * Partager un lien par mail de votre dashboard avec tous en mettant le lien sur Teams (on ne pourra pas accéder à ce lien, tant que nous ne pourrons pas nous connecter avec un compte utilisateur sur votre Grafana)
 * Récupérer un tableau de bord partagé par un autre stagiaire et importé le dans votre propre Grafana
 
