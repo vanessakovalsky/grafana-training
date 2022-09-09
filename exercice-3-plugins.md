@@ -8,9 +8,6 @@
 
 - Pour l'exercice nous avons besoin des plugins suivant :
   - Boom Table
-  - D3 Gauge
-  - Diagram
-  - Status panel
 
 ### Via l'interface graphique
 - L'installation des plugins peut être faite directement dans l'UI de Grafana
@@ -40,18 +37,12 @@ plugins install <plugin-id>
   - Une colonne Memory Usage
   - Une colonne Disk Usage
 
-### D3 Gauge
 
-- Ajouter un panel à votre tableau de bord qui permet d'afficher une jauge de remplissage du disque dur pour chaque conteneur 
 
-### Diagram
-- Ajouter un panel avec un diagramme de l'infrastructure de votre application (un conteneur PHP/Apache et un conteneur mariadb)
 
-### Status panel
-- Ajouter un panel avec Status panel qui affiche le statut des deux composants de notre application
-- Aidez vous de la documentation du plugin : https://grafana.com/grafana/plugins/vonage-status-panel/ 
 
-## Sélection de plugins
 
-- Trouver un ou plusieurs plugins qui seraient utiles à ajouter dans Grafana 
+## Aller plus loin -  Sélection de plugins
+
+- Trouver un ou plusieurs plugins qui seraient utiles à ajouter dans Grafana pour répondre à votre problèmatique de monitoring
 - Quels sont, selon vous les critères à prendre en compte pour le choix d'un plugin ?

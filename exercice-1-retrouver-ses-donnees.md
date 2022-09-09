@@ -9,6 +9,9 @@
 
 - Un projet web contenant une application en PHP et une base de données MariaDB sont déployées dans des conteneurs
 - Des métriques sont récupérées de ces conteneurs avec le collecteur CAdvisor et stocker dans une base Prométheus
+- Nous allons au fur et à mesure des exercices construire un tableau de bord qui ressemblera à celui-ci :
+
+![](img/exo1/dashboard_cible.png)
 
 ## Ajouter une source de données à Grafana
 
@@ -27,12 +30,40 @@
 
 - Dans le menu de Grafana, cliquer sur Explore
 - Tout en haut à côté du titre `Explore` vous pouvez sélectionner votre source de données
-- Puis en selectionnant votre source Prometheus, vous pouvez faire des requêtes pour afficher les données disponibles.
-- Pour connaitre la liste des données vous pouvez cliquer sur la flèche en dessous de Metrics, cela vous permet de voir les métriques qui sont disponibles dans votre source de donnéess.
+- Puis en sélectionnant votre source Prométheus, vous pouvez faire des requêtes pour afficher les données disponibles.
+- Pour connaître la liste des données vous pouvez cliquer sur la flèche en dessous de Metrics, cela vous permet de voir les métriques qui sont disponibles dans votre source de données.
+- L'ensemble des métriques disponibles est décrite ici : https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md 
 
-## Définir ses indicateurs et les requêtes associées
+## Définir les requêtes pour surveiller nos conteneurs 
 
-- Dans notre contexte, nous voulons surveiller les conteneurs qui hébergent notre application.
+- Nous avons une application web qui tournent dans deux conteneurs, que nous devons monitorer.
+- Pour chaque élément nous vous donnons la requête brute à executer, vous pouvez également construire ces requêtes à l'aide du constructeur de requête
+- Nous allons donc monitorer l'utilisation du CPU avec la requête suivante : 
+```
+sum(rate(container_cpu_usage_seconds_total{instance=~".*",name=~".*",name=~".+"}[5m])) by (name) *100
+
+```
+
+- Ainsi que l'utilisation de la mémoire
+```
+sum(container_memory_rss{instance=~".*",name=~".*",name=~".+"}) by (name)
+```
+- Et celle du trafic réseau reçu : 
+```
+sum(rate(container_network_receive_bytes_total{instance=~".*",name=~".*",name=~".+"}[5m])) by (name)
+```
+- Et le trafic sortant :
+```
+sum(rate(container_network_transmit_bytes_total{instance=~".*",name=~".*",name=~".+"}[5m])) by (name)
+```
+* Chacune de ces requêtes nous permet de récupérer des informations sur les métriques qui nous intéresse en utilisant les fonctions de calcul de PromQL.
+* Lors de l'exécution de ses requêtes, vous obtiendrez des graphique de résultats regroupés par interval de temps pour chaque conteneur comme celui ci-dessous
+
+![](img/exo1/result_explore.png)
+
+## Pour aller plus loin - Définir ses indicateurs et les requêtes associées
+
+- Définir dans votre contexte ce que vous souhaitez monitorer 
 - Quels sont selon vous les métriques nécessaires à surveiller pour cela ?
-- A l'aide de la [documentation de PromQL](https://prometheus.io/docs/prometheus/latest/querying/basics/) (le langage de requête de Prometheus) définir les requêtes qui vous permettent d'obtenir les métriques à surveiller pour nos conteneurs.
+- A l'aide de la [documentation de PromQL](https://prometheus.io/docs/prometheus/latest/querying/basics/) (le langage de requête de Prometheus) définir les requêtes qui vous permettent d'obtenir les métriques à surveiller pour vos propres données.
  
