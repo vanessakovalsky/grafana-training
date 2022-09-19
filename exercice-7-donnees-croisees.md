@@ -43,4 +43,14 @@ from(bucket: "kovalibre_bucket")
 * Pour cela ouvrir un Panel en édition et descendre au niveau de la requête
 * Vous avez alors un onglet Transform
 * Vous avez alors la possibilité de faire différentes transformations, voir la documentation de grafana : https://grafana.com/docs/grafana/latest/panels/transform-data/transformation-functions/ 
+
+* Par exemple sur le panel de Boom table vous pouvez supprimer les colonnes des conteneurs qui ne nous intéresse pas.
+* pour cela modifier le Panel,
+* Choisir l'onglet `Trabsform`
+* Ajouter une transformation de type `Fiter by name` et decocher les nom qui contiennent cadvisor, node-exporter et prometheus
+* Vous obtenez alors un tableau avec uniquement les conteneurs applicatifs et le total
+
+![](img/exo7/filter_by_name.png)
+
+## Pour aller plus loin
 * Par rapport aux métriques que vous aviez définis au départ, utiliser une ou plusieurs transformations pour affiner vos tableaux de bord
