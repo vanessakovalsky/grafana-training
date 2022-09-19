@@ -42,3 +42,9 @@
 ![](https://static.les-enovateurs.com/uploads/2019/02/Grafana-Permissions-sur-un-Dossier.png)
 * Vous retrouvez alors le menu permissions et le même fonctionnement que pour un tableau de bord.
 * Ajouter cette fois-ci une permission à seul utilisateur de voir le contenu du dossier. 
+
+## Pour aller plus loin - Définir le schéma des utilisateurs / équipes / permissions
+
+* Par rapport à votre problèmatique, quels seraient les utilisateurs à créer ?
+* Des équipes seraient t'elle nécessaire ?
+* Quels seraient les permissions à leur appliquer ?
