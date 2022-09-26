@@ -103,10 +103,10 @@ sum(rate(container_network_receive_bytes_total{id="/"}[5m])) by (host)
   - Format: `Time series`
   - Type: `Range`
   - Exemplars: Desactivé
-  - Resolution: `1/2`
+
 - Puis créer une seconde requête pour le trafic sortant :
 ```
-sum(rate(container_network_transmit_bytes_total{id="/"}[5m])) by (id)
+- sum(rate(container_network_transmit_bytes_total{id="/"}[5m])) by (id)
 ```
 - Nous donnons à cette requête les mêmes options que pour la première, sauf pour la legend qui devient `TRANSMIT`
 
