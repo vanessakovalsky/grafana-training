@@ -46,7 +46,7 @@ from(bucket: "kovalibre_bucket")
 
 * Par exemple sur le panel de Boom table vous pouvez supprimer les colonnes des conteneurs qui ne nous intéresse pas.
 * pour cela modifier le Panel,
-* Choisir l'onglet `Trabsform`
+* Choisir l'onglet `Transform`
 * Ajouter une transformation de type `Fiter by name` et decocher les nom qui contiennent cadvisor, node-exporter et prometheus
 * Vous obtenez alors un tableau avec uniquement les conteneurs applicatifs et le total
 
