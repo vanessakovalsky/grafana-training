@@ -7,9 +7,13 @@
 ## Optionnel - Paramètrer l'URL
 
 * Se connecter en SSH sur votre instance
-* Editer (en sudo) le fichier /etc/share/grafana/conf/defaults.ini 
+* Editer (en sudo) le fichier /usr/share/grafana/conf/defaults.ini 
 * Remplacer la ligne `domain = localhost` par `domain = votredomaine` (remplacer votredomaine par le domaine de votre instance (sans protocole ni port)
 * Enregistrer le fichier
+* Redémarrer le serveur grafana
+```sh
+sudo systemctl restart grafana-server
+```
 * Quitter le SSH
 
 ## Partage d'un Panel
