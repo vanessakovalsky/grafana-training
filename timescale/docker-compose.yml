@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg14
+    container_name: timescale
+    hostname: timescaledb
+    restart: always
+    ports:
+      - ${TIMESCALEDB_PORT}:5432
+    volumes:
+      - ./${TIMESCALEDB_DATA_STORE}:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${TIMESCALEDB_PASSWORD}
+      POSTGRES_USER: ${TIMESCALEDB_USER}
+      POSTGRES_DB: ${TIMESCALEDB_DB}
+  adminer:
+    image: adminer:4.8.1
+    container_name: adminer
+    restart: always
+    ports:
+      - ${ADMINER_PORT}:8080
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    depends_on:
+      - timescaledb
+    ports:
+      - 3030:3000
+    env_file: environment/.gfenv

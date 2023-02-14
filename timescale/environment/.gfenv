@@ -1,0 +1,6 @@
+GF_DATABASE_TYPE=postgres
+GF_DATABASE_HOST=timescaledb:5432
+GF_DATABASE_NAME=timescale_database
+GF_DATABASE_USER=timescale
+GF_DATABASE_PASSWORD=timescaledb
+GF_DATABASE_SSL_MODE=disable
