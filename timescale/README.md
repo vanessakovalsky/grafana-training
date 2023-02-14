@@ -3,6 +3,9 @@
 ## Pré-requis
 
 * Avoir docker-compose installé et docker lancé
+* Télécharger le fichier à cette adresse : https://timescaledata.blob.core.windows.net/datasets/nyc_data.tar.gz et extraire le fichier csv
+
+## Instructions
 
 * Récupérer les fichiers de ce dossier timescale
 * Lancer un  \docker-compose up -d
