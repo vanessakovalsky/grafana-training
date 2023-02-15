@@ -44,16 +44,13 @@ SELECT time_bucket('5m', rides.pickup_datetime) AS time,
        rides.pickup_latitude AS latitude,
        rides.pickup_longitude AS longitude
 FROM rides
-WHERE $__timeFilter(rides.pickup_datetime) AND
-  ST_Distance(pickup_geom,
-              ST_Transform(ST_SetSRID(ST_MakePoint(-73.9851,40.7589),4326),2163)
-  ) < 2000
+WHERE $__timeFilter(rides.pickup_datetime) 
 GROUP BY time,
          rides.trip_distance,
          rides.pickup_latitude,
          rides.pickup_longitude
 ORDER BY time
-LIMIT 500;
+LIMIT 50;
 ```
 
 ### Mise de la carte
