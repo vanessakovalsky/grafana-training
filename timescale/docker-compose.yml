@@ -4,12 +4,13 @@ services:
   timescaledb:
     image: timescale/timescaledb:latest-pg14
     container_name: timescale
+    shm_size: 4g
     hostname: timescaledb
     restart: always
     ports:
       - ${TIMESCALEDB_PORT}:5432
     volumes:
-      - ./${TIMESCALEDB_DATA_STORE}:/var/lib/postgresql/data
+      - ./timescaledata:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${TIMESCALEDB_PASSWORD}
       POSTGRES_USER: ${TIMESCALEDB_USER}
