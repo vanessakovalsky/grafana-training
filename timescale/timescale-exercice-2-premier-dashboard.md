@@ -20,11 +20,11 @@
 ## Ajouter des graphiques pour le nombre de courses
 
 - En fonction des indicateurs que vous avez définis pour l'exercice 1, ajouter des panels à votre tableau de bord pour représenter graphiquement vos indicateurs.
-- Commencer par ajouter une ligne qui contiendra nos graphique de surveillances des conteneurs
+- Commencer par ajouter une ligne qui contiendra notre graphique du nombre de courses
 - Pour cela cliquer sur `Add a new row`
 - Puis cliquer sur le titre `Row title` et sur la roue cranté qui apparaît à côté de ce titre
-- Nommer la lignes 'Conteneurs'
-- Ensuite nous allons ajouter un premier graphique pour surveiller l'utilisation du CPU de nos conteneurs
+- Nommer la lignes 'Nombre de courses par jour'
+- Ensuite nous allons ajouter un premier graphique pour afficher une courbe du nombre de course par jour
 - Pour cela on ajouter un panel avec le lien `Add a new panel`
 - Dans la requếte en bas de l'écran on saisit la requête de l'exercice précédent : 
 ```
