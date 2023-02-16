@@ -10,7 +10,7 @@ services:
     ports:
       - ${TIMESCALEDB_PORT}:5432
     volumes:
-      - ./timescaledata:/var/lib/postgresql/data
+      - myapp:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${TIMESCALEDB_PASSWORD}
       POSTGRES_USER: ${TIMESCALEDB_USER}
@@ -29,4 +29,14 @@ services:
       - timescaledb
     ports:
       - 3030:3000
-    env_file: environment/.gfenv
+    environment: 
+      GF_DATABASE_TYPE: postgres
+      GF_DATABASE_HOST: timescaledb:5432
+      GF_DATABASE_NAME: timescale_database
+      GF_DATABASE_USER: timescale
+      GF_DATABASE_PASSWORD: timescaledb
+      GF_DATABASE_SSL_MODE: disable
+    volumes:
+      - ./plugins/mypanel-vanessakovalskymy-panel/dist:/var/lib/grafana/plugins/mypanel-vanessakovalskymy-panel/
+volumes:
+  myapp:
