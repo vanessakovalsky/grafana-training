@@ -4,5 +4,4 @@ export interface SimpleOptions {
   text: string;
   showSeriesCount: boolean;
   seriesCountSize: SeriesSize;
-  myNumber: number;
 }

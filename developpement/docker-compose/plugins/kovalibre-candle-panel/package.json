@@ -1,7 +1,7 @@
 {
-  "name": "vanessakovalsky-my-panel",
+  "name": "candle",
   "version": "1.0.0",
-  "description": "",
+  "description": "Candlestick graph",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
@@ -13,14 +13,14 @@
     "e2e": "yarn cypress install && yarn grafana-e2e run",
     "e2e:update": "yarn cypress install && yarn grafana-e2e run --update-screenshots",
     "server": "docker-compose up --build",
-    "sign": "npx --yes @grafana/sign-plugin"
+    "sign": "npx --yes @grafana/sign-plugin@latest"
   },
-  "author": "My panel",
+  "author": "Kovalibre",
   "license": "Apache-2.0",
   "devDependencies": {
     "@babel/core": "^7.16.7",
-    "@grafana/e2e": "9.2.5",
-    "@grafana/e2e-selectors": "9.2.5",
+    "@grafana/e2e": "9.3.8",
+    "@grafana/e2e-selectors": "9.3.8",
     "@grafana/eslint-config": "^5.1.0",
     "@grafana/tsconfig": "^1.2.0-rc1",
     "@swc/core": "^1.2.144",
@@ -32,16 +32,8 @@
     "@types/jest": "^29.2.2",
     "@types/lodash": "^4.14.188",
     "@types/node": "^18.11.9",
-    "@typescript-eslint/eslint-plugin": "^5.42.1",
-    "@typescript-eslint/parser": "^5.42.1",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
-    "eslint": "8.26.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jsdoc": "^39.6.2",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-webpack-plugin": "^3.1.1",
     "fork-ts-checker-webpack-plugin": "^7.2.0",
     "glob": "^8.0.3",
@@ -54,8 +46,8 @@
     "sass-loader": "13.2.0",
     "style-loader": "3.3.1",
     "swc-loader": "^0.2.3",
-    "tsconfig-paths": "^4.1.0",
     "ts-node": "^10.5.0",
+    "tsconfig-paths": "^4.1.0",
     "typescript": "^4.4.0",
     "webpack": "^5.69.1",
     "webpack-cli": "^4.9.2",
@@ -66,10 +58,12 @@
   },
   "dependencies": {
     "@emotion/css": "^11.1.3",
-    "@grafana/data": "9.2.5",
-    "@grafana/runtime": "9.2.5",
-    "@grafana/ui": "9.2.5",
+    "@grafana/data": "9.3.8",
+    "@grafana/runtime": "9.3.8",
+    "@grafana/ui": "9.3.8",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "victory": "^36.6.8",
+    "victory-candlestick": "^36.6.8"
   }
 }

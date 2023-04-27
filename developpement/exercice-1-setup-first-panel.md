@@ -17,6 +17,10 @@ npm i -g yarn
 * NB : npm est un gestionnaire de paquet fournit par nodeJS, c'est avec lui que nous allons installé les différents paquets nécessaires
 * i signifie install
 * l'option -g permet d'installer le paquet de manière globale sur votre ordinateur (cela évite donc de reinstaller certains outils pour chaque projet). Par défaut le paquet (sans cet option) est ajouté dans un fichier package.json et installé dans un dossier node_modules dans le dossier dans lequel vous vous trouvez lorsque vous lancer la commmande
+* /! NB \ : Sous windows, il faut forcer la version de yarn avec la commande :
+```
+yarn set version berry
+```
 * Nous aurons également besoin d'un utilitaire qui nous facilite la vie pour créer les plugins : create-plugin. Pour l'installer
 ``` 
 npm i @grafana/create-plugin
@@ -80,9 +84,5 @@ yarn dev
 yarn dev
 ``` 
 * pour que Grafana récupère la dernière version
-* Ou bien si vous préferez avoir un rechargement à chaud: 
-```
-yarn watch
-```
 
 

@@ -4,12 +4,6 @@ import { SimplePanel } from './components/SimplePanel';
 
 export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOptions((builder) => {
   return builder
-    .addNumberInput({
-      path: 'myNumber',
-      name: 'My Number',
-      description: 'Number to show',
-      defaultValue: 42,
-    })
     .addTextInput({
       path: 'text',
       name: 'Simple text option',

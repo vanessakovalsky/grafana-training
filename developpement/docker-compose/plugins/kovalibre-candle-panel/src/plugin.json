@@ -1,13 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "panel",
-  "name": "Vanessakovalsky My Panel",
-  "id": "mypanel-vanessakovalskymy-panel",
+  "name": "Candle",
+  "id": "kovalibre-candle-panel",
   "info": {
     "keywords": ["panel"],
-    "description": "",
+    "description": "Candlestick graph",
     "author": {
-      "name": "My panel"
+      "name": "Kovalibre"
     },
     "logos": {
       "small": "img/logo.svg",
@@ -19,7 +19,7 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaDependency": ">=9.2.5",
+    "grafanaDependency": ">=9.3.8",
     "plugins": []
   }
 }

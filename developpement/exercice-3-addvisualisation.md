@@ -19,3 +19,44 @@
 ## Continuer avec les données
 
 * A partir de data, afficher un tableau contenant les données
+* Pour cela nous commençons par extraire les données de la première séries et par les mettre dans un tableau en utilisant la fonction foreach pour récupérer chaque élément de la série et les ajouter dans notre tableau 
+```
+const frame = data.series[0];
+
+  const colData = new Array(0);
+
+  frame.fields.forEach((field) => {
+    colData.push(new ColData(
+      field.name,
+      field.config?.displayName || field.name,
+      field.type,
+      field.values.toArray().map((v) => v as number),
+    ));
+  });
+```
+
+* Ensuite pour afficher ces éléments nous allons d'abord utiliser la fonction map pour extraire le nom des champs, puis mapper nos valeurs :
+```
+<table>
+      <thead>
+        <tr>
+        { colData.map((field) => (
+              <th key={field}>{field.displayName}</th>
+          ))}
+        </tr>
+          
+      </thead>
+      <tbody>
+        { colData.map((field) => (
+            field.values.map((value: number, index: number) => 
+            <tr key={index}>
+              <td key={index}>{value}</td>
+            </tr>
+
+            )
+          ))}
+      </tbody>
+    </table>
+```
+* Pour continuer à manipuler les valeurs, ajouter d'autres colonnes à notre première série et mettre à jour le code correspondant
+* Puis ajouter une deuxième serie de données et l'afficher également

@@ -36,7 +36,5 @@ services:
       GF_DATABASE_USER: timescale
       GF_DATABASE_PASSWORD: timescaledb
       GF_DATABASE_SSL_MODE: disable
-    volumes:
-      - ./plugins/mypanel-vanessakovalskymy-panel/dist:/var/lib/grafana/plugins/mypanel-vanessakovalskymy-panel/
 volumes:
   myapp:
