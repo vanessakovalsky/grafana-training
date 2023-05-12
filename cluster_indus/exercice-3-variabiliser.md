@@ -30,7 +30,7 @@ Deviendra :
 mysql_global_status_uptime{instance=$host}
 ```
 
-![](img/exo4/variable_query.png)
+![](../img/exo4/variable_query.png)
 
 
 * Reprenez les requêtes que nous avons utiliser dans les différents graphs, et ajouter l'utilisation de la variable host que vous avez créé sur l'enseble des graphiques 
