@@ -76,12 +76,12 @@
 
 ### (Si besoin) Requêtes préparées pour les graphiques :
 
-- Utilisation du CPU : `sum (rate (container_cpu_usage_seconds_total{kubernetes_io_hostname=~"^$Node$"}[$interval])) / sum (machine_cpu_cores{kubernetes_io_hostname=~"^$Node$"}) * 100`
-- Utilisation de la RAM : `sum (container_memory_working_set_bytes{kubernetes_io_hostname=~"^$Node$"}) / sum (machine_memory_bytes{kubernetes_io_hostname=~"^$Node$"}) * 100`
+- Utilisation du CPU : `sum (rate (container_cpu_usage_seconds_total{}[5m])) / sum (machine_cpu_cores{}) * 100`
+- Utilisation de la RAM : `sum (container_memory_working_set_bytes{}) / sum (machine_memory_bytes{}) * 100`
 - Trafic réseau entrant : `instance:node_network_receive_bytes:rate:sum{}` 
 - Trafic réseau sortant : `instance:node_network_transmit_bytes:rate:sum{}`
-- RAM par pod : `sum by(pod) (container_memory_working_set_bytes{kubernetes_io_hostname=~"^$Node$"})`
-- CPU par pod : `sum (rate (container_cpu_usage_seconds_total{kubernetes_io_hostname=~"^$Node$"}[$interval])) by (pod)`
+- RAM par pod : `sum by(pod) (container_memory_working_set_bytes{})`
+- CPU par pod : `sum (rate (container_cpu_usage_seconds_total{}[5m])) by (pod)`
 
 
 ## Pour aller plus loin - Définir ses indicateurs et les requêtes associées
