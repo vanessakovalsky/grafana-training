@@ -5,7 +5,7 @@
 - Avoir accès à l'interface graphique de Grafana
 - Avoir une base de données de métriques
 
-## Présenation du tableau de bord
+## Présentation du tableau de bord
 
 * Nous allons réaliser un tableau de bord qui permet de monitorer des instances de MariaDB ou MySQL. 
 * Pour cela nous avons besoin de métriques d'utilisation des bases et de définir ce que nous souhaitons monitorer. Ici nous allons monitorer : 
