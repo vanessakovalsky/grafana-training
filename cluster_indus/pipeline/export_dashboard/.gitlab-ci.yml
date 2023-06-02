@@ -1,0 +1,30 @@
+variables: 
+  GRAFANA_IMPORT_URL: "URL de Grafana pour l'export des dashboard"
+  GRAFANA_IMPORT_TOKEN: "API Key de Grafana pour l'export"
+
+
+export_dashboard:
+  stage: build
+  image: dwdraju/alpine-curl-jq
+  script:
+    - sed -i "s|VAR_GRAFANA_IMPORT_URL|$GRAFANA_IMPORT_URL|g" export.sh
+    - sed -i "s|VAR_GRAFANA_IMPORT_TOKEN|$GRAFANA_IMPORT_TOKEN|g" export.sh
+    - chmod +x export.sh
+    - ./export.sh
+  artifacts:
+    paths:
+    - exports/
+  
+push_git_repo:
+  stage: deploy
+  image: 
+    name: alpine/git
+    entrypoint: [""]
+  script:
+    - git config user.email "admin@example.com"
+    - git config user.name "root"
+    - if [git config remote.gitlab_origin.url]; then git remote rm gitlab_origin; fi
+    - git remote add gitlab_origin "https://root:$ACCESS_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_PATH.git"
+    - git add exports/
+    - git commit -m "push back from pipeline"
+    - git push gitlab_origin HEAD:main -o ci.skip # prevent triggering pipeline again
