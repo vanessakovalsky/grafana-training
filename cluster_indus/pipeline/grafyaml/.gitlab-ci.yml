@@ -1,0 +1,7 @@
+deployToGrafana:
+    stage: deploy
+    image: python:3.7.16-slim
+    script:
+        - pip3 install https://github.com/deliveryhero/grafyaml/archive/master.zip
+        - export GRAFANA_API_KEY=$GRAFANA_API_KEY
+        - grafana-dashboard --grafana-url $GRAFANA_URL update dashboard/vanessa.yml
