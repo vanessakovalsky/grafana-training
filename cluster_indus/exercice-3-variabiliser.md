@@ -2,12 +2,12 @@
 
 ## Définition d'une variable
 
-* Ajouter à votre tableau de bord une variable permettant de filtrer les données pour une ou plusieurs instances de base de données.
+* Ajouter à votre tableau de bord une variable permettant de filtrer les données pour un namespace
 * Pour cela déclarer votre variable dans les paramètres du Dashboard, menu Variables.
 * Cliquer sur New 
 * Choisir un nom de variable, puis le type de variable (ici nous choisissons Query pour récupérer une liste dynamique d'instances). Dans la requête nous utilisons la requêtes suivantes pour lister les conteneurs : 
 ```
-label_values(mysql_up, instance)
+label_values(namespace)
 ```
 * Ensuite vous définissez le filtre à appliquer 
 
@@ -22,18 +22,16 @@ label_values(mysql_up, instance)
 Exemple : 
 La requête : 
 ```
-mysql_global_status_uptime{}
-```
+sum by(pod) (container_memory_working_set_bytes{})```
 
 Deviendra : 
 ```
-mysql_global_status_uptime{instance=$host}
+sum by(pod) (container_memory_working_set_bytes{namespace=~'${namespace}'})
 ```
 
-![](../img/exo4/variable_query.png)
 
 
-* Reprenez les requêtes que nous avons utiliser dans les différents graphs, et ajouter l'utilisation de la variable host que vous avez créé sur l'enseble des graphiques 
+* Reprenez les requêtes que nous avons utiliser dans les différents graphs, et ajouter l'utilisation de la variable namespace que vous avez créé sur l'enseble des graphiques 
 * Puis changer l'instance sélectionnée et observé la modification des graphiques
 
 
