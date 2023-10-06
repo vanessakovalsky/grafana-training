@@ -24,7 +24,6 @@ La requête :
 ```
 sum by(pod) (container_memory_working_set_bytes{})```
 ```
-
 Deviendra : 
 ```
 sum by(pod) (container_memory_working_set_bytes{namespace=~'${namespace}'})
