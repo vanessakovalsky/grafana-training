@@ -36,11 +36,10 @@
 
 ## Permissions sur un dossier
 
-* Revenir à la page d'accueil (Home)
-* Créer un dossier et mettre une copie de votre tableau de bord à l'intérieur, en lui donnant un nouveau nom
-* Sur la page d'accueil, en passant sur le nom du dossier, vous verrez apparaître la roue cranté permettant d'accéder aux paramètres du dossier
-![](https://static.les-enovateurs.com/uploads/2019/02/Grafana-Permissions-sur-un-Dossier.png)
-* Vous retrouvez alors le menu permissions et le même fonctionnement que pour un tableau de bord.
+* Revenir à la page des dashboard
+* Créer un dossier et créer un tableau de bord à l'intérieur, en lui donnant un nouveau nom
+* Sur la liste des tableaux de bord, à côté du nom du dossier, vous verrez apparaître un lien Go To Folder, cliquer dessus pour accéder au dossier
+* Vous retrouvez alors l'onglet permissions et le même fonctionnement que pour un tableau de bord.
 * Ajouter cette fois-ci une permission à seul utilisateur de voir le contenu du dossier. 
 
 ## Pour aller plus loin - Définir le schéma des utilisateurs / équipes / permissions
