@@ -24,13 +24,16 @@
 * Ajouter à votre tableau de bord une variable permettant de filtrer les données pour un ou plusieurs conteneurs parmi les différents conteneurs disponibles.
 * Pour cela déclarer votre variable dans les paramètres du Dashboard, menu Variables.
 * Cliquer sur New 
-* Choisir un nom de variable, puis le type de variable (ici nous choisissons Query pour récupérer une liste dynamique de nom de container). Dans la requête nous utilisons la requêtes suivantes pour lister les conteneurs : 
+* Choisir un nom de variable, puis le type de variable (ici nous choisissons Query pour récupérer une liste dynamique de nom de container).
+* Dans la requête nous utilisons la requêtes suivantes pour lister les conteneurs (il n'est pas possible de copier/coller la requête il faut la paramètrer dans le builder, voir la capture ci dessous) : 
 ```
 label_values({__name__=~"container.*"},name)
 ```
 * Ensuite vous définissez le filtre à appliquer 
 
-![](img/exo4/add_variable.png)
+![](img/grafana_variable1.png)
+![](img/grafana_variable2.png)
+
 
 * La variable apparaît alors en haut du tableau de bord.
 
