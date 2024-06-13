@@ -81,7 +81,7 @@ count(rate(container_last_seen{job="cadvisor", name!=""}[5m]))
   - Orientation : `Horizontal`
   - Text mode : `Auto`
   - Color mode: `None`
-  - Graph mode : `Area`
+  - Graph mode : `None`
   - Text alignement : `Auto`
 - Dans `Text size`, `Standard Options`,`Data links`,`Value Mappings`, laisser les valeurs par défaut (ou modifier les à votre convenance)
 - `Thresold` permet de définir des couleurs en fonction de la valeur. Cette valeur est exprimée en mode absolue ou en pourcentage
