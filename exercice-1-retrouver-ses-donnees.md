@@ -2,7 +2,7 @@
 
 ## Pré-requis
 
-- Avoir accès à l'interface graphique de Grafana
+- Avoir accès à l'interface graphique de Grafana : par défaut : http://localhost:3000 (utilisateur : admin / mot de passe : admin (à la première connexion)
 - Avoir une base de données de métriques
 
 ## Présentation 
