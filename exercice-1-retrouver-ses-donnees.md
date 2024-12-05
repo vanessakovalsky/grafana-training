@@ -21,7 +21,7 @@
 - Dans la catégorie `Time serie base`, Choisir `Prometheus` 
 - Vous arrivez alors sur une page de paramètrage
 - Le seul paramètre obligatoire est alors l'adresse de Prometheus, à renseigner avec l'adresse qui vous a été fournie pendant la formation
-- Les autres paramètres permettent par exemple de configurer une authentification, dans le cas où l'accès à Prometheus est protégé (ce n'est pas le cas dans le cadre de la formation)
+- Les autres paramètres permettent par exemple de configurer une authentification, dans le cas où l'accès à Prometheus est protégé (ce n'est pas le cas dans le cadre de la formation (par defaut : http://prometheus:9090 (avec docker compose))
 - Cliquer en bas de la page sur `Save and test`
 - Vous devriez obtenir un message `Data source is working`, dans le cas contraire, vérifier l'adresse saisie et les paramètres que vous avez modifié (il n'est pas nécessaire dans le cadre de la formation de modifier les paramètres)
 - Vos données sont maintenant accessibles depuis Grafana
