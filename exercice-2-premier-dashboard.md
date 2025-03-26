@@ -31,6 +31,10 @@
 sum(rate(container_cpu_usage_seconds_total{}[5m])) by (name) *100
 
 ```
+- autre requête pour obtenir la même chose (selon infra)
+```
+instance:node_network_receive_bytes:rate:sum
+```
 - Pour coller la requête, il faut passer en mode code :
 ![](img/exo2/requete_graph.png)
 
@@ -97,6 +101,10 @@ count(rate(container_last_seen{}[5m]))
 ```
 sum(rate(container_network_receive_bytes_total{id="/"}[5m])) by (host)
 ```
+- autre requête pour obtenir la même chose (selon infra)
+```
+instance:node_network_receive_bytes:rate:sum
+```
 - Dans les options de la requête, nous ajoutons les informations suivantes :
   - Legend : `RECEIVE`
   - Min step: `2m`
@@ -107,6 +115,10 @@ sum(rate(container_network_receive_bytes_total{id="/"}[5m])) by (host)
 - Puis créer une seconde requête pour le trafic sortant :
 ```
 - sum(rate(container_network_transmit_bytes_total{id="/"}[5m])) by (id)
+```
+- autre requête pour obtenir la même chose (selon infra)
+```
+- instance:node_network_transmit_bytes:rate:sum
 ```
 - Nous donnons à cette requête les mêmes options que pour la première, sauf pour la legend qui devient `TRANSMIT`
 
