@@ -29,9 +29,11 @@
 - Dans la requếte en bas de l'écran on saisit la requête de l'exercice précédent : 
 ```
 sum(rate(container_cpu_usage_seconds_total{}[5m])) by (name) *100
-
 ```
-
+- Ou bien la requête suivante (selon infra) :
+```
+sum by(id) (rate(container_cpu_usage_seconds_total[5m])) * 100
+```
 - Pour coller la requête, il faut passer en mode code :
 ![](img/exo2/requete_graph.png)
 
