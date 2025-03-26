@@ -15,10 +15,10 @@
 
 ## Ajouter une source de données à Grafana
 
-- Dans Grafana, ouvrir le menu, puis dans l'item `Configuration`, cliquer sur Data sources
+- Dans Grafana, ouvrir le menu, puis dans l'item `Connctions`, cliquer sur Data sources
 - Vous arrivez alors sur la liste des sources de données
-- Pour ajouter une source de données, cliquer sur `Add data source`
-- Dans la catégorie `Time serie base`, Choisir `Prometheus` 
+- Pour ajouter une source de données, cliquer sur `Add new connections`
+- Choisir `Prometheus` 
 - Vous arrivez alors sur une page de paramètrage
 - Le seul paramètre obligatoire est alors l'adresse de Prometheus, à renseigner avec l'adresse qui vous a été fournie pendant la formation
 - Les autres paramètres permettent par exemple de configurer une authentification, dans le cas où l'accès à Prometheus est protégé (ce n'est pas le cas dans le cadre de la formation (par defaut : http://prometheus:9090 (avec docker compose))
@@ -40,21 +40,21 @@
 - Pour chaque élément nous vous donnons la requête brute à executer, vous pouvez également construire ces requêtes à l'aide du constructeur de requête
 - Nous allons donc monitorer l'utilisation du CPU avec la requête suivante : 
 ```
-sum(rate(container_cpu_usage_seconds_total{instance=~".*",name=~".*",name=~".+"}[5m])) by (name) *100
+sum(rate(container_cpu_usage_seconds_total{}[5m])) by (name) *100
 
 ```
 
 - Ainsi que l'utilisation de la mémoire
 ```
-sum(container_memory_rss{instance=~".*",name=~".*",name=~".+"}) by (name)
+sum(container_memory_rss{}) by (name)
 ```
 - Et celle du trafic réseau reçu : 
 ```
-sum(rate(container_network_receive_bytes_total{instance=~".*",name=~".*",name=~".+"}[5m])) by (name)
+sum(rate(container_network_receive_bytes_total{}[5m])) by (name)
 ```
 - Et le trafic sortant :
 ```
-sum(rate(container_network_transmit_bytes_total{instance=~".*",name=~".*",name=~".+"}[5m])) by (name)
+sum(rate(container_network_transmit_bytes_total{}[5m])) by (name)
 ```
 * Chacune de ces requêtes nous permet de récupérer des informations sur les métriques qui nous intéresse en utilisant les fonctions de calcul de PromQL.
 * Lors de l'exécution de ses requêtes, vous obtiendrez des graphique de résultats regroupés par interval de temps pour chaque conteneur comme celui ci-dessous
