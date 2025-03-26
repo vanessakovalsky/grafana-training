@@ -69,7 +69,7 @@ sum(rate(container_cpu_usage_seconds_total{}[5m])) by (name) *100
 - Créer un nouveau panel avec le lien `Add a new panel`
 - Pour cela utiliser la requête 
 ```
-count(rate(container_last_seen{job="cadvisor", name!=""}[5m]))
+count(rate(container_last_seen{}[5m]))
 ```
 - Puis en haut à droite, choisir `Stat` 
 - Comme titre mettre `Nombre de conteneurs en fonctionnement`
