@@ -43,18 +43,34 @@
 sum(rate(container_cpu_usage_seconds_total{}[5m])) by (name) *100
 
 ```
+- ou bien sur cluster K8s :
+```
+sum by(id) (rate(container_cpu_usage_seconds_total[5m])) * 100
+```
 
 - Ainsi que l'utilisation de la mémoire
 ```
 sum(container_memory_rss{}) by (name)
 ```
+- Sur cluster k8s :
+```
+sum(container_memory_rss{}) by (id)
+```
 - Et celle du trafic réseau reçu : 
 ```
 sum(rate(container_network_receive_bytes_total{}[5m])) by (name)
 ```
+- Sur cluster k8s :
+```
+instance:node_network_receive_bytes:rate:sum
+```
 - Et le trafic sortant :
 ```
 sum(rate(container_network_transmit_bytes_total{}[5m])) by (name)
+```
+- Sur cluster k8s :
+```
+instance:node_network_transmit_bytes:rate:sum
 ```
 * Chacune de ces requêtes nous permet de récupérer des informations sur les métriques qui nous intéresse en utilisant les fonctions de calcul de PromQL.
 * Lors de l'exécution de ses requêtes, vous obtiendrez des graphique de résultats regroupés par interval de temps pour chaque conteneur comme celui ci-dessous
