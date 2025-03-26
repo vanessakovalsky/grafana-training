@@ -28,7 +28,7 @@
 - Pour cela on ajouter un panel avec le lien `Add a new panel`
 - Dans la requếte en bas de l'écran on saisit la requête de l'exercice précédent : 
 ```
-sum(rate(container_cpu_usage_seconds_total{instance=~".*",name=~".*",name=~".+"}[5m])) by (name) *100
+sum(rate(container_cpu_usage_seconds_total{}[5m])) by (name) *100
 
 ```
 - Pour coller la requête, il faut passer en mode code :
