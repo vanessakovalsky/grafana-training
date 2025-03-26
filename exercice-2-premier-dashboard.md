@@ -172,6 +172,10 @@ sum (node_filesystem_size_bytes - node_filesystem_free_bytes) / sum(node_filesys
 ```
 sum(sum by (container_name)( rate(container_cpu_usage_seconds_total[1m] ) )) / count(node_cpu_seconds_total{mode="system"}) * 100
 ```
+- Requête cluster k8s :
+```
+sum(sum by (id)( rate(container_cpu_usage_seconds_total[1m] ) )) / count(node_cpu_seconds_total{mode="system"}) * 100
+```
 
 
 - Mettre les trois graphiques côte à côté pour obtenir un résultat semblable à celui-ci :
