@@ -31,10 +31,7 @@
 sum(rate(container_cpu_usage_seconds_total{}[5m])) by (name) *100
 
 ```
-- autre requête pour obtenir la même chose (selon infra)
-```
-instance:node_network_receive_bytes:rate:sum
-```
+
 - Pour coller la requête, il faut passer en mode code :
 ![](img/exo2/requete_graph.png)
 
