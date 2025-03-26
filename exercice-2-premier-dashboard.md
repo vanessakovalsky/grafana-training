@@ -164,7 +164,10 @@ instance:node_network_receive_bytes:rate:sum
 ```
 sum (container_fs_limit_bytes - container_fs_usage_bytes) / sum(container_fs_limit_bytes)
 ```
-
+- Requête cluster k8s :
+```
+sum (node_filesystem_size_bytes - node_filesystem_free_bytes) / sum(node_filesystem_size_bytes)
+```
 - Ainsi que pour l'utilisation du CPU avec la requête
 ```
 sum(sum by (container_name)( rate(container_cpu_usage_seconds_total[1m] ) )) / count(node_cpu_seconds_total{mode="system"}) * 100
