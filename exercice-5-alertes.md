@@ -15,7 +15,6 @@
 * Choisir maintenant la valeur `count` dans la liste déroulante `When`
 * Définir une valeur à 5
 
-![](img/exo5/alert01.png)
 
 ### Evaluation de l'alerte
 
@@ -24,8 +23,6 @@
 * Dans La section `Configure no data and error handling`
     * Pour `Alert state if no data or all values are null` choisir `Ok`
 
-![](img/exo5/alert02.png)
-
 ### Détail de l'alerte
 
 * Dans la section `3 Add details for your alert`, vous pouvez :
@@ -33,15 +30,12 @@
     * La ranger dans un dossier (préalablement créer dans les dossiers des dashboard) puis créer un groupe
     * Donner des informations supplémentaire, par défaut l'UID du dashboard et l'ID du Panel sont définies
 
-![](img/exo5/alert03.png)
 
 ### Notification lié à votre Alerte
 
 * Grafana utilise un système de notification basé sur des labels, il est donc important de définir les labels qui permettront l'envoi des notifications
 * Ici nous ajoutons un label avec pour clé `type` et pour valeur `network`
 * Ceux ci seront utilisés après pour la définition de la police de notification
-
-![](img/exo5/alert04.png)
 
 * N'oubliez pas de cliquer sur `Save` en haut à droite pour enregistrer votre alerte
 
