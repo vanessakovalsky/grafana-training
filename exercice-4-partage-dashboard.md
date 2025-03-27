@@ -29,6 +29,10 @@
 ```
 label_values({__name__=~"container.*"},name)
 ```
+* Sur le cluster k8s :
+```
+label_values(id)
+```
 * Ensuite vous définissez le filtre à appliquer 
 
 ![](img/grafana_variable1.png)
@@ -50,6 +54,10 @@ sum(rate(container_cpu_usage_seconds_total{name=~".*",name=~".+"}[5m])) by (name
 Deviendra : 
 ```
 sum(rate(container_cpu_usage_seconds_total{name=~"$containername",name=~".+"}[5m])) by (name) *100
+```
+ou sur le cluster k8s :
+```
+sum by(id) (rate(container_cpu_usage_seconds_total{id=~"$pod_id", id=~".+"}[5m])) * 100
 ```
 
 ![](img/exo4/variable_query.png)
