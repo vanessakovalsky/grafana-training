@@ -7,7 +7,7 @@
 
 ## Présentation 
 
-- Un projet web contenant une application en PHP et une base de données MariaDB sont déployées dans des conteneurs
+- Un cluster kubernetes est déployé sur un serveur avec un serveur de métriques Prométheus sont installé et disponibles.
 - Des métriques sont récupérées de ces conteneurs avec le collecteur CAdvisor et stocker dans une base Prométheus
 - Nous allons au fur et à mesure des exercices construire un tableau de bord qui ressemblera à celui-ci :
 
@@ -40,35 +40,18 @@
 - Pour chaque élément nous vous donnons la requête brute à executer, vous pouvez également construire ces requêtes à l'aide du constructeur de requête
 - Nous allons donc monitorer l'utilisation du CPU avec la requête suivante : 
 ```
-sum(rate(container_cpu_usage_seconds_total{}[5m])) by (name) *100
-
-```
-- ou bien sur cluster K8s :
-```
 sum by(id) (rate(container_cpu_usage_seconds_total[5m])) * 100
 ```
 
 - Ainsi que l'utilisation de la mémoire
 ```
-sum(container_memory_rss{}) by (name)
-```
-- Sur cluster k8s :
-```
 sum(container_memory_rss{}) by (id)
 ```
 - Et celle du trafic réseau reçu : 
 ```
-sum(rate(container_network_receive_bytes_total{}[5m])) by (name)
-```
-- Sur cluster k8s :
-```
 instance:node_network_receive_bytes:rate:sum
 ```
 - Et le trafic sortant :
-```
-sum(rate(container_network_transmit_bytes_total{}[5m])) by (name)
-```
-- Sur cluster k8s :
 ```
 instance:node_network_transmit_bytes:rate:sum
 ```
