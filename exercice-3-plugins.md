@@ -10,7 +10,7 @@
 
 ### Via l'interface graphique
 - L'installation des plugins peut être faite directement dans l'UI de Grafana
-- Dans le menu de Grafana, ouvrir `Configuration`, puis cliquer sur `Plugins`
+- Dans le menu de Grafana, ouvrir `Administratipn`,puis cliquer sur `Modules complémentaires`,  puis cliquer sur `Plugins`
 - Vous accédez alors à la liste des plugins (ceux installé et ceux disponibles)
 - Vous pouvez choisir un plugin et l'installé
 
