@@ -11,7 +11,8 @@
 * Créer un panel qui affiche le nombre de conteneurs
 * Enregistrer ce panel dans la Library 
 * Créer un nouveau Dashboard et utiliser votre panel depuis la Library
-* Partager un instantané du panel avec un autre stagiaire et la formatrice par mail
+* Créer un nouveau panel (sans l'importer depuis la bibliothèque, Grafana ne gère pas les instannés avec des panels de biblioth_que)
+* Partager un instantané du panel avec un autre stagiaire et la formatrice par l'outil de visio
 
 ## Partage du tableau de bord
 
