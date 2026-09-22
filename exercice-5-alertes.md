@@ -5,68 +5,59 @@
 * Avoir un tableau de bord configuré dans Grafana
 * Avoir créer un dossier dans les dashboard
 
-## Création d'une alerte
+### Objectif
+À la fin de l'atelier, chaque participant a créé une règle d'alerte fonctionnelle, un point de contact, et compris comment le routage des notifications se déclenche.
 
-### Définir le seuil
-* Sur votre dashboard, choisir le panel qui affiche le trafic réseau entrant
-* Ouvrir votre Panel en modification, puis sélectionner l'onglet `Alert`
-* Puis cliquer sur `Create Alert`
+### Contexte technique 
 
-* Choisir maintenant la valeur `count` dans la liste déroulante `When`
-* Définir une valeur à 5
+Depuis Grafana 12, le **Grafana-Managed Alerting** est la méthode par défaut (les alertes gérées côté datasource — Prometheus/Loki — restent possibles mais ne sont plus le mode par défaut). La navigation Alerting a aussi été réorganisée en 4 zones : **Alert rules**, **Alert activity** (Alerts + Active notifications), **Notification Configuration** (Contact points, Notification policies, Time intervals, Templates), et **Groups**.
 
+---
 
-### Evaluation de l'alerte
+### Étape 1 — Explorer la navigation Alerting (5 min)
 
-* Dans Evaluate laisser les paramètre par défaut 
+Demander aux participants d'ouvrir le menu **Alerting** dans la sidebar et de repérer les 4 sous-menus.
+Consigne : "Sans cliquer encore, dites-moi où vous iriez pour : voir les alertes qui se déclenchent en ce moment, configurer un canal Slack/email, et créer une nouvelle règle."
+→ Objectif : qu'ils mémorisent la structure avant de manipuler.
 
-* Dans La section `Configure no data and error handling`
-    * Pour `Alert state if no data or all values are null` choisir `Ok`
+### Étape 2 — Créer une règle d'alerte (15 min)
 
-### Détail de l'alerte
+Aller dans **Alert rules → New alert rule**.
 
-* Dans la section `3 Add details for your alert`, vous pouvez :
-    * donner un nom à votre alerte
-    * La ranger dans un dossier (préalablement créer dans les dossiers des dashboard) puis créer un groupe
-    * Donner des informations supplémentaire, par défaut l'UID du dashboard et l'ID du Panel sont définies
+1. **Nommer la règle** de façon explicite (ex : `cpu-high-webserver`)
+2. **Définir la requête** : choisir la source de données et écrire la requête qui retourne la métrique à surveiller (ex : CPU > seuil, taux d'erreur HTTP, etc.)
+3. **Définir la condition d'alerte** : seuil (`WHEN query IS ABOVE 80`), avec la fenêtre d'évaluation
+4. **Configurer l'évaluation** :
+   - Rattacher la règle à un *evaluation group* (fréquence d'évaluation, ex : toutes les 1 min)
+   - Définir le `pending period` (durée pendant laquelle la condition doit rester vraie avant de passer à *Firing*)
+5. **Ajouter des labels** (ex : `severity=critical`, `team=infra`) — c'est ce qui servira au routage à l'étape suivante
+6. **Ajouter des annotations** (résumé, description, lien runbook) pour enrichir la notification
 
+Consigne pratique à donner : "Testez votre requête et regardez l'état de la règle passer de *Normal* à *Pending* à *Firing* si vous forcez la condition."
 
-### Notification lié à votre Alerte
+### Étape 3 — Créer un point de contact (10 min)
 
-* Grafana utilise un système de notification basé sur des labels, il est donc important de définir les labels qui permettront l'envoi des notifications
-* Ici nous ajoutons un label avec pour clé `type` et pour valeur `network`
-* Ceux ci seront utilisés après pour la définition de la police de notification
+Aller dans **Notification Configuration → Contact points → Add contact point**.
 
-* N'oubliez pas de cliquer sur `Save` en haut à droite pour enregistrer votre alerte
+1. Choisir l'intégration (email, Slack, webhook, Teams...)
+2. Renseigner les paramètres (adresse, webhook URL, etc.)
+3. Utiliser le bouton **Test** pour envoyer une notification factice et vérifier la réception
 
-## Définir le point de contact et la police de notification
+### Étape 4 — Configurer la politique de notification (10 min)
+Aller dans **Notification Configuration → Notification policies**.
 
-### Point de contact
-* Dans le menu de gauche, cliquer sur l'icône des alertes, puis choisir `Contact points`
-* Nous pouvons alors définir un template de message en cliquant sur + New template et en utilisant le langage de template de GO, voir la documentation : https://grafana.com/docs/grafana/latest/alerting/contact-points/message-templating/template-data/ 
-* Ici nous utiliserons le template par défaut.
-* Puis nous pouvons aussi définir un point de contact, c'est à dire un canal qui sera utilisé pour envoyer votre alerte.
-* Pour cela cliquer sur `+ New contact point`
-* Renseigner un nom, un type de contact et les paramètres correspondant, ici nous choisirons email mais cela peut être une alerte vers un système de chat, ou un autre système d'alerte comme AlertManager
+1. Observer la politique par défaut (root policy)
+2. Créer une politique imbriquée basée sur les labels définis à l'étape 2 (ex : si `severity=critical` → contact point Slack ; sinon → contact point email)
+3. Expliquer le principe de **matching** par labels et l'héritage entre politique racine et sous-politiques
 
-![](img/exo5/contactpoint.png)
+Optionnel si le temps le permet : configurer un **time interval** (ex : ne pas notifier la nuit) et le rattacher à la politique.
 
-### Police de notification
-* Dans le menu de gauche, cliquer sur l'icône des alertes, puis choisir `Notification policies`
-* Puis nous créons une police de notification spécifique en cliquant sur `+ New specific policy`
-* Nous devons alors choisir le ou les labels qui vont correspondre à notre police de notification (ici, clé type, value network)
-* Puis un point de contact (celui que nous avons créé à l'étape précédente)
-* Puis nous enregistrons la police de notification en cliquant sur `Save policy`
+### Étape 5 — Déclencher et observer (10 min)
+1. Forcer la condition d'alerte à devenir vraie (modifier le seuil temporairement, ou générer de la charge si l'environnement le permet)
+2. Aller dans **Alert activity → Alerts** pour voir l'alerte passer par les états `Pending` → `Firing`
+3. Vérifier la réception de la notification sur le canal configuré
+4. Consulter **Alert activity → Active notifications** puis, si disponible dans votre version, l'historique des notifications pour voir le détail de l'envoi (contact point utilisé, succès/échec)
 
-![](img/exo5/policy.png)
-
-## Tester votre alerte
-
-* Ouvrir dans plusieurs onglets l'application web en moins de 5 minutes sur l'adresse : 
-IP du serveur:8090 (l'adresse exacte de l'application vous serez communiqué pendant la formation)
-* Cela devrait alors déclencher l'alerte, vous pouvez le vérifier dans l'interface en allant dans les règles d'alertes via le menu des Alertes et vous obtiendrez alors une alerte qui est au statut `Firing`.
-
-![](img/exo5/firing.png)
 
 ## Pour aller plus loin - Définir ses propres alertes
 
