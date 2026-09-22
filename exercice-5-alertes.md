@@ -16,9 +16,8 @@ Depuis Grafana 12, le **Grafana-Managed Alerting** est la méthode par défaut (
 
 ### Étape 1 — Explorer la navigation Alerting (5 min)
 
-Demander aux participants d'ouvrir le menu **Alerting** dans la sidebar et de repérer les 4 sous-menus.
-Consigne : "Sans cliquer encore, dites-moi où vous iriez pour : voir les alertes qui se déclenchent en ce moment, configurer un canal Slack/email, et créer une nouvelle règle."
-→ Objectif : qu'ils mémorisent la structure avant de manipuler.
+Ouvrir le menu **Alerting** dans la sidebar et de repérer les 4 sous-menus.
+Sans cliquer encore, où vous iriez pour : voir les alertes qui se déclenchent en ce moment, configurer un canal Slack/email, et créer une nouvelle règle.
 
 ### Étape 2 — Créer une règle d'alerte (15 min)
 
