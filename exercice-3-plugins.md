@@ -26,6 +26,7 @@ grafana-cli plugins list-remote
 ```
 plugins install <plugin-id>
 ```
+
 ## Atelier — "Concevez votre tableau de bord Grafana"
 
 Durée : 45 min | Format : binômes | Niveau : après avoir vu les bases de Grafana (sources de données, panels, requêtes)
