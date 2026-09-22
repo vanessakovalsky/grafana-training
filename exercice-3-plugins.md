@@ -9,6 +9,7 @@
 - Nous allons choisir et installer un plugin de Grafana.
 
 ### Via l'interface graphique
+
 - L'installation des plugins peut être faite directement dans l'UI de Grafana
 - Dans le menu de Grafana, ouvrir `Administratipn`,puis cliquer sur `Modules complémentaires`,  puis cliquer sur `Plugins`
 - Vous accédez alors à la liste des plugins (ceux installé et ceux disponibles)
@@ -34,17 +35,17 @@ Durée : 45 min | Format : binômes | Niveau : après avoir vu les bases de Graf
 1. Cadrage du cas d'usage 
 Chaque binôme choisit (ou utilise un des siens) un cas d'usage parmi la liste suivante :
 
-Supervision d'une flotte de VMs/conteneurs (CPU, mémoire, réseau)
-Suivi de pipelines CI/CD (durée des builds, taux d'échec)
-Monitoring applicatif métier (latence API, taux d'erreur, volumétrie)
-Suivi géographique/embarqué (positions, capteurs, IoT)
-Suivi business (ventes, commandes, KPIs)
+* Supervision d'une flotte de VMs/conteneurs (CPU, mémoire, réseau)
+* Suivi de pipelines CI/CD (durée des builds, taux d'échec)
+* Monitoring applicatif métier (latence API, taux d'erreur, volumétrie)
+* Suivi géographique/embarqué (positions, capteurs, IoT)
+* Suivi business (ventes, commandes, KPIs)
 
 Répondre à 3 questions :
 
-Qui va regarder ce dashboard, et pour quelle décision ?
-Quelles sont les 3 à 5 métriques indispensables ?
-Quelle fréquence de rafraîchissement / plage temporelle a du sens ?
+* Qui va regarder ce dashboard, et pour quelle décision ?
+* Quelles sont les 3 à 5 métriques indispensables ?
+* Quelle fréquence de rafraîchissement / plage temporelle a du sens ?
 
 2. Maquette du dashboard (10 min)
 Sur papier, tableau blanc ou un outil simple (Excalidraw, Miro, ou juste une feuille), le binôme dessine la disposition envisagée : combien de panels, quel type par métrique (time series, gauge, stat, table, heatmap...), organisation en lignes/sections.
