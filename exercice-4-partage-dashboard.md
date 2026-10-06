@@ -32,7 +32,7 @@ label_values({__name__=~"container.*"},name)
 ```
 * Sur le cluster k8s :
 ```
-label_values(id)
+label_values(pod)
 ```
 * Ensuite vous définissez le filtre à appliquer 
 
