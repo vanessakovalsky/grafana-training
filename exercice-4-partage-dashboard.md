@@ -58,7 +58,7 @@ sum(rate(container_cpu_usage_seconds_total{name=~"$container",name=~".+"}[5m])) 
 ```
 ou sur le cluster k8s :
 ```
-sum by(id) (rate(container_cpu_usage_seconds_total{pod=~"$container", id=~".+"}[5m])) * 100
+sum by(id) (rate(container_cpu_usage_seconds_total{pod=~"$container", pod=~".+"}[5m])) * 100
 ```
 
 ![](img/exo4/variable_query.png)
