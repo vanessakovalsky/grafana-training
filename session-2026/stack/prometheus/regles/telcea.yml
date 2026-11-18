@@ -1,0 +1,12 @@
+# Regle geree par la source de donnees (Prometheus) : visible dans Grafana > Alerting (M09)
+groups:
+  - name: telcea-radio
+    rules:
+      - alert: SiteRadioHorsService
+        expr: telcea_site_up == 0
+        for: 1m
+        labels:
+          severite: critique
+          equipe: radio
+        annotations:
+          summary: "Site {{ $labels.site }} ({{ $labels.region }}) hors service"

@@ -1,0 +1,24 @@
+---
+# Flow (andrewbmchugh-flow-panel 1.20.1) : schema du reseau Telcea
+# Requete A : utilisation des liens (legende {{link}}) ; requete B : sites en service par region ({{region}})
+anchorLinks:
+  - thresholds: &seuils-liens
+      - {color: "green", level: 0}
+      - {color: "orange", level: 0.8}
+      - {color: "red", level: 0.9}
+  - thresholds: &seuils-sites
+      - {color: "red", level: 0}
+      - {color: "orange", level: 2}
+      - {color: "green", level: 3}
+cellIdPreamble: "cell-"
+cells:
+  REN-PAR:     {dataRef: "REN-PAR", strokeColor: {thresholds: *seuils-liens}}
+  LIL-PAR:     {dataRef: "LIL-PAR", strokeColor: {thresholds: *seuils-liens}}
+  MRS-PAR:     {dataRef: "MRS-PAR", strokeColor: {thresholds: *seuils-liens}}
+  txt-REN-PAR: {dataRef: "REN-PAR", label: {separator: "cr", units: "percentunit", decimalPoints: 0}}
+  txt-LIL-PAR: {dataRef: "LIL-PAR", label: {separator: "cr", units: "percentunit", decimalPoints: 0}}
+  txt-MRS-PAR: {dataRef: "MRS-PAR", label: {separator: "cr", units: "percentunit", decimalPoints: 0}}
+  Bretagne:        {dataRef: "Bretagne", fillColor: {thresholds: *seuils-sites}}
+  Hauts-de-France: {dataRef: "Hauts-de-France", fillColor: {thresholds: *seuils-sites}}
+  Ile-de-France:   {dataRef: "Ile-de-France", fillColor: {thresholds: *seuils-sites}}
+  Provence:        {dataRef: "Provence", fillColor: {thresholds: *seuils-sites}}

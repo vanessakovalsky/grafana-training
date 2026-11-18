@@ -1,0 +1,28 @@
+# Alertmanager externe (M09) : routage par label "equipe", courriels vers Mailpit
+global:
+  smtp_smarthost: mailpit:1025
+  smtp_from: alertmanager@telcea.example
+  smtp_require_tls: false
+
+route:
+  receiver: noc
+  group_by: [alertname, region]
+  group_wait: 30s
+  group_interval: 2m
+  repeat_interval: 1h
+  routes:
+    - matchers: [equipe="radio"]
+      receiver: equipe-radio
+    - matchers: [equipe="transport"]
+      receiver: equipe-transport
+
+receivers:
+  - name: noc
+    email_configs:
+      - to: noc@telcea.example
+  - name: equipe-radio
+    email_configs:
+      - to: radio@telcea.example
+  - name: equipe-transport
+    email_configs:
+      - to: transport@telcea.example
