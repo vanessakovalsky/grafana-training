@@ -86,4 +86,5 @@ Empreinte mémoire relevée : ≈ 1,1 Gio pour les 11 services.
 | Banc local | `cd stack && docker compose down -v` | Aucun |
 | Liens externes et snapshots | Supprimés avec les VM | — |
 
-Coût indicatif : `t3.medium` ≈ 0,05 $/h `[À VÉRIFIER]` par VM, soit environ 40 $ pour 11 VM sur 3 jours sans arrêt nocturne.
+Coût par VM (tarifs AWS `eu-west-3`, relevés le 18/11/2026) = `t3.medium` 0,0472 $/h + disque gp3 30 Go ≈ 0,0038 $/h + IPv4 publique 0,005 $/h ≈ **0,056 $/h** (≈ 1,35 $/jour).
+Exemple : 9 VM (8 stagiaires + formatrice) de J-1 18 h à J2 18 h (48 h) ≈ 24 $ ; transfert sortant (Guacamole) négligeable.
