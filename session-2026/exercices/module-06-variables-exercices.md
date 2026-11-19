@@ -1,65 +1,92 @@
 # Module 06 — Exercices
 
+Parcours essentiel = Labs 06.1 et 06.2 (tout le groupe). Défis = facultatifs, en cas d'avance.
+Toutes les requêtes sont fournies : copier-coller, sans retaper.
+
 ## Lab 06.1 ⭐ — Le tableau de bord régional et sa variable Région (guidé)
-**Durée** : 15 min · **Objectif** : créer « [TLC] Réseau — Détail régional » filtré par une variable `region` multi-valeur
+**Durée** : 15 min · **Objectif** : créer « [TLC] Réseau — Détail régional » filtré par une variable `region`
 **Contexte** : l'équipe *radio* veut le détail d'une ou plusieurs régions sans dupliquer l'écran national.
-**Prérequis** : M05 (tableau de bord national, source `Prometheus`)
+**Prérequis** : source `Prometheus`, dossier `NOC Telcéa`
 
 ### Étapes
 1. **Dashboards → NOC Telcéa → New → New dashboard**, mise en page **Custom grid**.
-2. Engrenage (barre de droite) → **Settings** → onglet **Variables** → **New variable** :
+2. Engrenage (barre de droite) → **Settings** → onglet **Variables** → **New variable**.
+3. Renseigner :
    - **Variable type** : `Query` ; **Name** : `region` ; **Label** : `Région`
    - **Data source** : `Prometheus` ; **Query type** : `Label values` ; **Label** : `region` ; **Metric** : `telcea_site_info`
    - **Selection options** : **Multi-value** activé, **Include All value** activé
-   Résultat attendu (aperçu des valeurs, bas de l'éditeur) : `Bretagne`, `Hauts-de-France`, `Ile-de-France`, `Provence`.
-   → **Back to list**, **Back to dashboard**.
-3. Ajouter un panel Time series `Abonnés par site` :
+   Résultat attendu (aperçu, bas de l'éditeur) : `Bretagne`, `Hauts-de-France`, `Ile-de-France`, `Provence`.
+4. **Back to list** → **Back to dashboard**.
+5. Panneau **Add** → **Panel** → **Configure visualization** → **Code**, copier-coller :
    ```promql
    sum by (site) (telcea_cell_users{region=~"$region"})
    ```
-   Légende `{{site}}`, unité `None`.
-4. **Save** : titre `[TLC] Réseau — Détail régional`, dossier `NOC Telcéa`, tags `telcea`, `reseau`, `radio`.
-5. Liste **Région** en haut : choisir `Bretagne`, puis ajouter `Provence`.
-   Résultat attendu : 3 courbes (REN-01, BRE-01, QUI-01), puis 6 ; URL contenant `var-region=Bretagne&var-region=Provence`.
+   **Title** : `Abonnés par site` → **Back**.
+6. **Save** : titre `[TLC] Réseau — Détail régional`, dossier `NOC Telcéa` → **Save** → **Exit edit**.
+7. Liste **Région** (en haut) : choisir `Bretagne`.
+   Résultat attendu : 3 courbes (REN-01, BRE-01, QUI-01).
+
+### Si bloqué
+Tableau de bord importé par la formatrice (rattrapage, 5 s) : **Dashboards → NOC Telcéa**.
 
 ### Critères de réussite
 - [ ] Variable `region` à 4 valeurs + `All`
-- [ ] Le panel suit la sélection (3 courbes pour la Bretagne seule)
+- [ ] 3 courbes pour la Bretagne seule
 
 ---
 
-## Lab 06.2 ⭐ — Variables chaînées, custom et interval (guidé)
-**Durée** : 15 min · **Objectif** : ajouter `site` (dépend de `region`), `techno` (liste fixe) et `fenetre` (durée)
-**Contexte** : le technicien veut isoler un site 4G précis et lisser plus ou moins les débits.
+## Lab 06.2 ⭐ — Une variable Site qui dépend de la région (guidé)
+**Durée** : 10 min · **Objectif** : ajouter la variable `site`, limitée aux sites de la région choisie
+**Contexte** : le technicien veut isoler un site précis.
 **Prérequis** : Lab 06.1
 
 ### Étapes
-1. **New variable** `site`, label `Site` : type `Query`, **Query type** `Classic query`, requête :
+1. **Edit** → engrenage → **Settings** → **Variables** → **New variable** :
+   - **Variable type** : `Query` ; **Name** : `site` ; **Label** : `Site`
+   - **Data source** : `Prometheus` ; **Query type** : `Classic query`, requête :
    ```promql
    label_values(telcea_site_info{region=~"$region"}, site)
    ```
-   Multi-value et Include All value activés.
-2. **New variable** `techno`, label `Techno` : type `Custom`, valeurs `4G,5G`, Multi-value et Include All value activés.
-3. **New variable** `fenetre`, label `Fenêtre de calcul` : type `Interval`, valeurs `1m,5m,15m,1h`.
-4. Vérifier l'ordre de la liste : `region`, `site`, `techno`, `fenetre` (glisser si besoin).
-5. Modifier `Abonnés par site` :
+   - **Multi-value** et **Include All value** activés
+2. **Back to list** → **Back to dashboard**.
+3. Panel `Abonnés par site` → **Edit** → remplacer la requête par :
    ```promql
-   sum by (site) (telcea_cell_users{region=~"$region", site=~"$site", techno=~"$techno"})
+   sum by (site) (telcea_cell_users{region=~"$region", site=~"$site"})
    ```
-6. Ajouter un Time series `Débit descendant par site ($fenetre)`, unité `bits/sec(SI)` :
-   ```promql
-   sum by (site) (rate(telcea_cell_traffic_bytes_total{direction="down", region=~"$region", site=~"$site", techno=~"$techno"}[$fenetre])) * 8
-   ```
-7. **Save**. Tester : Région `Bretagne` → liste Site limitée à REN-01, BRE-01, QUI-01 ; Techno `4G` → BRE-01 et QUI-01 seulement ; Fenêtre `1h` → courbes plus lisses, titre « (1h) ».
+   **Back** → **Save** → **Exit edit**.
+4. Tester : Région `Bretagne` → liste **Site** limitée à REN-01, BRE-01, QUI-01 ; Site `BRE-01` → 1 courbe.
 
 ### Critères de réussite
 - [ ] Liste Site filtrée par la région
-- [ ] Titre du panel de débit mis à jour avec la fenêtre choisie
+- [ ] Le panel suit la sélection du site
 
 ---
 
-## Exercice 06.3 ⭐⭐ — Panels répétés et frise de disponibilité (semi-autonome)
+## Défis facultatifs (en cas d'avance)
+
+## Défi 06.2b ⭐⭐ — Variables Techno et Fenêtre de calcul
+**Durée** : 15 min · **Objectif** : ajouter une liste fixe et une variable de durée
+**Contexte** : le technicien veut filtrer par technologie et lisser plus ou moins les débits.
+
+**Énoncé** :
+1. Variable `techno` (label `Techno`) : type `Custom`, valeurs `4G,5G`, multi-valeur, `All`.
+2. Variable `fenetre` (label `Fenêtre de calcul`) : type `Interval`, valeurs `1m,5m,15m,1h`.
+3. Ordre des variables : `region`, `site`, `techno`, `fenetre`.
+4. `Abonnés par site` filtré aussi par `techno` ; nouveau panel `Débit descendant par site ($fenetre)`, unité `bits/sec(SI)` :
+   ```promql
+   sum by (site) (rate(telcea_cell_traffic_bytes_total{direction="down", region=~"$region", site=~"$site", techno=~"$techno"}[$fenetre])) * 8
+   ```
+5. Tags du tableau de bord : `telcea`, `reseau`, `radio`.
+
+**Critères de réussite** :
+- [ ] Techno `4G` en Bretagne → BRE-01 et QUI-01 seulement
+- [ ] Fenêtre `1h` → courbes plus lisses, titre « (1h) »
+
+---
+
+## Défi 06.3 ⭐⭐ — Panels répétés et frise de disponibilité (semi-autonome)
 **Durée** : 15 min · **Objectif** : un Stat par région sélectionnée, et 2 panels filtrés par les variables
+**Prérequis** : défi 06.2b (variables `techno` et `fenetre`)
 **Contexte** : le responsable *radio* veut voir d'un coup d'œil le nombre de sites en service de chaque région choisie.
 
 **Énoncé** :

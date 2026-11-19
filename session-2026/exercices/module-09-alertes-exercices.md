@@ -1,28 +1,34 @@
 # Module 09 — Exercices
 
-Courriels : boîte de test Mailpit de la VM, `https://stagiaireNN.<SESSION>.kovalibre-labs.com/mail/` (aucun courriel ne sort de la VM).
+Parcours essentiel = Labs 09.1, 09.2 et 09.3 (tout le groupe). Défis = facultatifs, en cas d'avance.
+Courriels : boîte de test Mailpit de la VM, `https://stagiaire<NN>.<SESSION>.kovalibre-labs.com/mail/` (aucun courriel ne sort de la VM).
 
 ## Lab 09.1 ⭐ — Première règle : site radio hors service (guidé)
-**Durée** : 20 min · **Objectif** : créer la règle « Site radio hors service » et observer ses instances
+**Durée** : 20 min · **Objectif** : créer la règle « Site radio hors service »
 **Contexte** : la nuit, personne ne regarde l'écran du NOC ; une coupure de site doit être signalée automatiquement à l'équipe *radio*.
 **Prérequis** : source `Prometheus`, dossier `NOC Telcéa`
 
 ### Étapes
 1. **Alerting → Alert rules → New alert rule**.
 2. Section 1 : **Name** `Site radio hors service`.
-3. Section 2 : source `Prometheus`, mode **Code**, requête `telcea_site_up`, **Options → Type** `Instant`.
-   **Alert condition** : WHEN QUERY **IS BELOW** `1`. Cliquer sur **Preview alert rule condition**.
+3. Section 2 : source `Prometheus`, mode **Code**, copier-coller la requête :
+   ```promql
+   telcea_site_up
+   ```
+   **Options → Type** : `Instant`.
+4. **Alert condition** : WHEN QUERY **IS BELOW** `1` → bouton **Preview alert rule condition**.
    Résultat attendu : 12 instances `Normal` (une par site).
-4. Section 3 : **Folder** `NOC Telcéa` ; **Add labels** : `equipe` = `radio`, `severite` = `critique`.
-5. Section 4 : **New evaluation group** `telcea-1m`, intervalle `1m` ; **Pending period** `1m` ; **Keep firing for** `None`.
-6. Section 5 : laisser le routage par politique de notification (configuré au Lab 09.2) ; si un choix direct est proposé, sélectionner le point de contact par défaut.
-7. Section 6 : **Summary** `Site {{ $labels.site }} ({{ $labels.region }}) hors service`.
+5. Section 3 : **Folder** `NOC Telcéa` ; **Add labels** : `equipe` = `radio`.
+6. Section 4 : **New evaluation group** `telcea-1m`, intervalle `1m` ; **Pending period** `1m`.
+7. Section 5 : laisser le routage par politique de notification (configuré au Lab 09.2).
 8. **Save** (bas de page).
-   Résultat attendu : règle dans **Alert rules**, dossier `NOC Telcéa`, groupe `telcea-1m`, état `Normal`.
+   Résultat attendu : règle dans **Alert rules**, état `Normal`.
+
+### Si bloqué
+Règles, points de contact et routage créés par la formatrice (rattrapage, 5 s) : reprise au Lab 09.3.
 
 ### Critères de réussite
-- [ ] Règle enregistrée, 12 instances `Normal`
-- [ ] Labels `equipe=radio`, `severite=critique` visibles dans le détail de la règle
+- [ ] Règle enregistrée, 12 instances `Normal`, label `equipe=radio`
 
 ---
 
@@ -33,21 +39,52 @@ Courriels : boîte de test Mailpit de la VM, `https://stagiaireNN.<SESSION>.kova
 
 ### Étapes
 1. **Alerting → Notification configuration** → onglet **Contact points** → **New contact point** :
-   - `Equipe radio`, intégration **Email**, adresse `radio@telcea.example` → **Test** → **Send test notification** → **Save contact point**
-   - `Equipe transport` → `transport@telcea.example`
-   - `NOC Telcea` → `noc@telcea.example`
-2. Ouvrir Mailpit (`/mail/`) : 3 courriels de test reçus.
+   **Name** `Equipe radio`, intégration **Email**, adresse `radio@telcea.example` → **Save contact point**.
+2. Idem : `Equipe transport` → `transport@telcea.example` ; `NOC Telcea` → `noc@telcea.example`.
 3. Onglet **Notification policies** : ligne **Default policy** → **More → Edit** → **Default contact point** `NOC Telcea` → enregistrer.
-4. Ligne **Default policy** → **Add route** : matcher `equipe` `=` `radio` → **Contact point** `Equipe radio`. Idem `equipe = transport` → `Equipe transport`.
-   Résultat attendu : **Default policy · 2 routes**, branches `equipe = radio` (*Delivered to Equipe radio*) et `equipe = transport`.
+4. Ligne **Default policy** → **Add route** : matcher `equipe` `=` `radio` → **Contact point** `Equipe radio` → enregistrer.
+5. Idem : `equipe` `=` `transport` → `Equipe transport`.
+   Résultat attendu : **Default policy · 2 routes**.
 
 ### Critères de réussite
-- [ ] 3 courriels de test dans Mailpit, chacun à la bonne adresse
-- [ ] Deux politiques enfants, matchers `equipe=radio` et `equipe=transport`
+- [ ] 3 points de contact
+- [ ] Deux routes, matchers `equipe=radio` et `equipe=transport`
 
 ---
 
-## Exercice 09.3 ⭐⭐ — La tempête en Bretagne (semi-autonome)
+## Lab 09.3 ⭐ — La tempête en Bretagne (observation)
+**Durée** : 15 min · **Objectif** : voir une alerte se déclencher et arriver chez la bonne équipe
+**Contexte** : une tempête frappe la Bretagne (déclenchée par la formatrice) : sites coupés, bascule sur batterie, lien de collecte saturé.
+**Prérequis** : Labs 09.1 et 09.2 (ou rattrapage)
+
+### Étapes
+1. Au signal de la formatrice : **Alerting → Alert rules**, règle `Site radio hors service`.
+   Résultat attendu : états `Normal` → `Pending` (1 à 2 min) → `Firing` (2 à 3 min) pour les sites bretons coupés ; courriel en 3 à 4 min.
+2. Ouvrir Mailpit (`/mail/`).
+   Résultat attendu : courriel « Site radio hors service » adressé à `radio@telcea.example`.
+3. Ouvrir `[TLC] Réseau — Vue nationale` : repérer les sites `Hors service` dans le tableau `État des sites`.
+
+### Critères de réussite
+- [ ] Alerte `Firing` observée
+- [ ] Courriel reçu par `radio@`, aucun par `transport@`
+
+---
+
+## Défis facultatifs (en cas d'avance)
+
+## Défi 09.2b ⭐⭐ — Tester et documenter les alertes
+**Durée** : 10 min
+**Énoncé** :
+1. Sur chaque point de contact : **Test** → **Send test notification** ; 3 courriels de test dans Mailpit.
+2. Règle `Site radio hors service` : ajouter le label `severite` = `critique` et le résumé (section 6, **Summary**) : `Site {{ $labels.site }} ({{ $labels.region }}) hors service`.
+
+**Critères de réussite** :
+- [ ] 3 courriels de test, chacun à la bonne adresse
+- [ ] Courriel de la tempête citant le site et la région
+
+---
+
+## Défi 09.3 ⭐⭐ — La tempête en Bretagne : deux règles de plus
 **Durée** : 25 min · **Objectif** : créer les 2 règles manquantes, vivre l'incident, vérifier le routage
 **Contexte** : 13 h 45, une tempête frappe la Bretagne (déclenchée par la formatrice) : sites coupés, bascule sur batterie, lien de collecte saturé.
 

@@ -1,26 +1,25 @@
 # Module 08 — Exercices
 
-Travail en binôme pour les échanges (voisin de salle ou de visio). Canal d'échange des liens et fichiers : messagerie de la session (Teams ou équivalent).
+Parcours essentiel = Labs 08.1 et 08.2 (tout le groupe). Défis = facultatifs, en cas d'avance.
+Canal d'échange des liens et fichiers : messagerie de la session (Teams ou équivalent).
 
 ## Lab 08.1 ⭐ — Lien interne et lien externe (guidé)
-**Durée** : 10 min · **Objectif** : partager une vue filtrée et figée avec un collègue, puis l'écran mural sans compte
+**Durée** : 10 min · **Objectif** : partager une vue figée avec un collègue, puis l'écran mural sans compte
 **Contexte** : l'équipe *radio* signale un incident en Bretagne ; la direction veut suivre l'écran mural depuis son bureau, sans compte Grafana.
-**Prérequis** : M06 (tableau de bord régional), M07 (écran mural)
+**Prérequis** : tableau de bord régional (M06), écran mural (M07) — sinon rattrapage par la formatrice
 
 ### Étapes
-1. Ouvrir `[TLC] Réseau — Détail régional`, Région `Bretagne`, plage `Last 1 hour`.
-2. Bouton **Share** (barre du haut) → **Share internally** : activer **Lock time range** et **Shorten link** → **Copy link**.
-   Résultat attendu : lien `https://stagiaireNN.<SESSION>.kovalibre-labs.com/grafana/goto/...` copié.
-3. Coller le lien dans un nouvel onglet : vérifier la région `Bretagne` et la plage absolue (dates et heures affichées à la place de `Last 1 hour`).
+1. Ouvrir `[TLC] Réseau — Détail régional`, Région `Bretagne`.
+2. Bouton **Share** (barre du haut) → **Share internally** : activer **Lock time range** → **Copy link**.
+3. Coller le lien dans un nouvel onglet.
+   Résultat attendu : région `Bretagne`, dates et heures fixes à la place de `Last ...`.
 4. Ouvrir `[TLC] NOC — Écran mural` → **Share** → **Share externally** : cocher « I understand that this entire dashboard will be public. » → **Accept** → **Copy external link**.
-5. Ouvrir le lien externe dans une fenêtre de navigation privée (aucune session Grafana).
-   Résultat attendu : écran mural affiché en lecture seule, sans menu ni connexion.
-6. **Dashboards → Public dashboards** : repérer l'écran mural, puis **Pause access**, recharger la fenêtre privée.
-   Résultat attendu : accès refusé tant que la pause est active ; réactiver ensuite.
+5. Ouvrir le lien externe dans une fenêtre de navigation privée (`Ctrl + Maj + N` ou `Ctrl + Maj + P`).
+   Résultat attendu : écran mural affiché sans connexion, en lecture seule.
 
 ### Critères de réussite
 - [ ] Lien interne à plage figée et région conservée
-- [ ] Écran mural visible sans compte, puis bloqué par la pause
+- [ ] Écran mural visible sans compte
 
 ---
 
@@ -31,20 +30,33 @@ Travail en binôme pour les échanges (voisin de salle ou de visio). Canal d'éc
 
 ### Étapes
 1. `[TLC] Réseau — Vue nationale` → **Share** → **Share snapshot**.
-2. **Snapshot name** : `[TLC] Réseau — état <HEURE>` ; **Expires in** : `1 Day` → **Publish snapshot** (et SURTOUT PAS **Publish to snapshots.raintank.io**).
-   Résultat attendu : lien `.../grafana/dashboard/snapshot/...` → **Copy link**.
-3. Envoyer le lien à la formatrice par la messagerie de la session (rôle du courriel au prestataire).
-4. Ouvrir le snapshot : modifier la plage de temps, ouvrir un panel en édition.
-   Résultat attendu : données figées, aucune requête visible.
-5. **Dashboards → Snapshots** : retrouver le snapshot, noter sa date d'expiration.
+2. **Snapshot name** : `[TLC] Réseau — état <HEURE>` ; **Expires in** : `1 Day`.
+3. Bouton **Publish snapshot** (et SURTOUT PAS **Publish to snapshots.raintank.io**) → **Copy link**.
+4. Envoyer le lien à la formatrice par la messagerie de la session.
+5. Ouvrir le snapshot, modifier la plage de temps.
+   Résultat attendu : données figées.
 
 ### Critères de réussite
-- [ ] Snapshot local publié, expiration 1 jour
-- [ ] Lien transmis ; données identiques quelle que soit l'heure d'ouverture
+- [ ] Snapshot local publié, lien transmis
 
 ---
 
-## Exercice 08.3 ⭐⭐ — Échanger un tableau de bord avec son binôme (semi-autonome)
+## Défis facultatifs (en cas d'avance)
+
+## Défi 08.2b ⭐⭐ — Maîtriser les partages publics et les snapshots
+**Durée** : 5 min · **Objectif** : couper un accès public et retrouver un snapshot
+**Énoncé** :
+1. **Dashboards → Public dashboards** : écran mural → **Pause access**, recharger la fenêtre privée (accès refusé), puis réactiver.
+2. **Dashboards → Snapshots** : retrouver son snapshot, noter sa date d'expiration.
+3. Lien interne raccourci : option **Shorten link** de **Share internally**.
+
+**Critères de réussite** :
+- [ ] Accès bloqué pendant la pause, rétabli ensuite
+- [ ] Date d'expiration relevée
+
+---
+
+## Défi 08.3 ⭐⭐ — Échanger un tableau de bord avec son binôme (semi-autonome)
 **Durée** : 15 min · **Objectif** : exporter son tableau de bord régional et importer celui du binôme dans sa propre instance
 **Contexte** : deux NOC régionaux de Telcéa veulent comparer leurs écrans ; chaque NOC a sa propre instance Grafana.
 
@@ -58,7 +70,7 @@ Variables : `<PRÉNOM>` = prénom du binôme.
 **Indices** :
 - Export : **Export** (barre du haut) → **Export as code**, option **Share dashboard with another instance**, puis **Download file**
 - Import : **Dashboards → New → Import dashboard** → **Upload dashboard JSON file** → choix du dossier, de la source, titre et uid différents
-- Conflit d'uid : même uid `tlc-reseau-regional` dans les deux instances → en changer à l'import
+- Conflit d'uid (tableaux de bord issus du rattrapage : même uid `tlc-reseau-regional` dans les deux instances) → en changer à l'import
 
 **Critères de réussite** :
 - [ ] Deux tableaux de bord régionaux dans `NOC Telcéa` (le sien, celui du binôme)
@@ -68,6 +80,7 @@ Variables : `<PRÉNOM>` = prénom du binôme.
 
 ## Défi 08.4 ⭐⭐⭐ — Un panel de consignes partagé (autonome)
 **Durée** : 10 min · **Objectif** : maintenir une seule fois un panel utilisé par plusieurs écrans
+**Prérequis** : panel `Consignes du NOC` (défi 04.3) ; sinon, le créer (visualisation **Text**, astreinte radio poste 1001)
 **Contexte** : les numéros d'astreinte changent chaque semaine ; ils sont affichés sur l'écran national ET sur l'écran mural.
 
 **Énoncé** :

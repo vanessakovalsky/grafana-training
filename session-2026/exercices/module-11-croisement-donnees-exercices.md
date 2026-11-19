@@ -1,13 +1,16 @@
 # Module 11 — Exercices
 
+Parcours essentiel = Labs 11.1 et 11.2 (tout le groupe). Défis = facultatifs, en cas d'avance.
+Toutes les requêtes sont fournies : copier-coller, sans retaper.
+
 ## Lab 11.1 ⭐ — Deux sources dans un panel (guidé)
 **Durée** : 10 min · **Objectif** : afficher le CPU de la VM vu par node-exporter (Prometheus) et par Telegraf (InfluxDB) sur un même graphe
 **Contexte** : l'équipe *systeme* soupçonne un collecteur de mal mesurer ; il faut comparer les deux.
 **Prérequis** : sources `Prometheus` et `InfluxDB` (M03)
 
 ### Étapes
-1. **Dashboards → NOC Telcéa → New → New dashboard**, **Custom grid** ; **Save** : `[TLC] Croisement — Réseau et système`, tags `telcea`, `noc`, `croisement`.
-2. Nouveau panel Time series ; sélecteur **Data source** : `-- Mixed --`.
+1. **Dashboards → NOC Telcéa → New → New dashboard**, **Custom grid** ; **Save** : `[TLC] Croisement — Réseau et système`, dossier `NOC Telcéa`.
+2. Panneau **Add** → **Panel** → **Configure visualization** ; sélecteur **Data source** : `-- Mixed --`.
 3. Requête A, source `Prometheus` (mode Code), légende `node-exporter` :
    ```promql
    100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m])))
@@ -20,6 +23,9 @@
 5. **Query options** (au-dessus des requêtes) → **Min interval** : `1m`.
 6. Titre `CPU de la VM : node-exporter et Telegraf`, unité `Percent (0-100)`, min `0` → **Back**, **Save**.
    Résultat attendu : deux courbes proches (écart de quelques points), légendes `node-exporter` et `telegraf`.
+
+### Si bloqué
+Tableau de bord importé par la formatrice (rattrapage, 5 s) : lecture des panels en mode **Edit**.
 
 ### Critères de réussite
 - [ ] Un panel, deux sources, deux courbes
@@ -46,7 +52,9 @@
 
 ---
 
-## Exercice 11.3 ⭐⭐ — Synthèse par site (semi-autonome)
+## Défis facultatifs (en cas d'avance)
+
+## Défi 11.3 ⭐⭐ — Synthèse par site (semi-autonome)
 **Durée** : 15 min · **Objectif** : un tableau d'une ligne par site, 6 colonnes issues de 4 requêtes
 **Contexte** : le responsable *radio* veut, sur une seule ligne par site, l'état, les abonnés, le débit, le débit par abonné et la latence (ancien besoin couvert par Boom Table).
 

@@ -1,35 +1,28 @@
 # Module 07 — Exercices
 
-Fichiers fournis dans le dépôt de la formation (`~/grafana-training/ateliers/m07/`) : `reseau-telcea.svg` (schéma du réseau) et `flow-config.yaml` (configuration Flow).
+Parcours essentiel = Labs 07.1 et 07.2 (tout le groupe). Défis = facultatifs, en cas d'avance.
+Toutes les requêtes sont fournies : copier-coller, sans retaper.
 
-## Lab 07.1 ⭐ — Installer quatre plugins (guidé)
-**Durée** : 15 min · **Objectif** : installer Status Panel, D3 Gauge, Flow et Polystat, par l'interface puis par la ligne de commande
+## Lab 07.1 ⭐ — Installer quatre plugins depuis le catalogue (guidé)
+**Durée** : 15 min · **Objectif** : installer Status Panel, Polystat, D3 Gauge et Flow par l'interface
 **Contexte** : le NOC de Telcéa prépare son écran mural ; les visualisations natives ne couvrent ni le schéma du réseau ni le statut multi-indicateurs.
-**Prérequis** : session `admin`, accès Internet depuis la VM
+**Prérequis** : session `admin`
 
 ### Étapes
-1. **Administration → Plugins and data → Plugins**, **Type** : `Panels`, **State** : `All`, rechercher `status`.
-   Résultat attendu : plusieurs « Status Panel » (éditeurs Vonage et Tech Ben) : noter éditeur et badge de chacun.
-2. Ouvrir **Status Panel — By Vonage** → onglet **Overview** : relever **Installed Version** / **Latest Version**, **Dependencies**, **Signature** → **Install**.
-   Résultat attendu : bouton **Uninstall** à la place de **Install** ; badge **Installed** dans le catalogue.
-3. Même démarche pour **Polystat** (rechercher `polystat`).
-4. Dans le terminal du bureau Linux, installer les deux autres plugins :
-   ```bash
-   cd ~/grafana-training/stack
-   docker compose exec grafana grafana cli plugins install briangann-gauge-panel
-   docker compose exec grafana grafana cli plugins install andrewbmchugh-flow-panel
-   docker compose restart grafana
-   ```
-   Résultat attendu (une ligne par plugin) :
-   ```
-   ✔ Downloaded and extracted briangann-gauge-panel v2.2.0 zip successfully to /var/lib/grafana/plugins/briangann-gauge-panel
-   ```
-5. Après 20 s, recharger le catalogue, **State** : `Installed`.
+1. **Administration → Plugins and data → Plugins**, **Type** : `Panels`, **State** : `All`.
+2. Rechercher `status` → ouvrir **Status Panel — By Vonage** → **Install**.
+   Résultat attendu : bouton **Uninstall** à la place de **Install**.
+3. Même démarche : rechercher `polystat` → **Polystat** → **Install**.
+4. Même démarche : rechercher `D3 Gauge` → **D3 Gauge** → **Install**.
+5. Même démarche : rechercher `flow` → **Flow** (éditeur andrewbmchugh) → **Install**.
+6. Retour au catalogue, **State** : `Installed`.
    Résultat attendu : `Status Panel`, `Polystat`, `D3 Gauge`, `Flow` présents.
+
+### Si bloqué
+Plugins installés par la formatrice (rattrapage, ~20 s, redémarrage de Grafana) : recharger la page.
 
 ### Critères de réussite
 - [ ] 4 plugins à l'état **Installed**
-- [ ] Signature de chacun relevée (2 « Grafana », 2 « community »)
 
 ---
 
@@ -39,31 +32,67 @@ Fichiers fournis dans le dépôt de la formation (`~/grafana-training/ateliers/m
 **Prérequis** : Lab 07.1
 
 ### Étapes
-1. **Dashboards → NOC Telcéa → New → New dashboard**, **Custom grid** ; **Save** : `[TLC] NOC — Écran mural`, tags `telcea`, `noc`.
-2. Panel **Status Panel** (bouton **Change** de l'éditeur, rechercher `Status`), titre `Statut — Bretagne` :
-   - requête A : `sum(telcea_site_up{region="Bretagne"})`
-   - requête B : `max(telcea_link_packet_loss_ratio{region="Bretagne"})`
-   - **+ Add field override → Fields returned by query** `A` → **Display name** `Sites en service` ; idem `B` → `Perte de paquets`, et **Unit** `Percent (0.0-1.0)`
-   - options du champ (**Thresholds** du Status Panel) : **Number Threshold**, **Warning** `2`, **Critical** `1` pour A ; `0.01` / `0.02` pour B (override B)
-   - **Aggregation** : `Last` ; **Display Alias** : `Always`
-   Résultat attendu : pavé vert, lignes `Sites en service - 3` et `Perte de paquets - 0.0x%`.
-3. Panel **D3 Gauge**, titre `Utilisation REN-PAR` :
+1. **Dashboards → NOC Telcéa → New → New dashboard**, **Custom grid**.
+2. **Save** : titre `[TLC] NOC — Écran mural`, dossier `NOC Telcéa` → **Save**.
+3. Panneau **Add** → **Panel** → **Configure visualization** → bouton **Change** → rechercher `Status` → **Status Panel**.
+4. **Code**, copier-coller :
+   ```promql
+   sum(telcea_site_up{region="Bretagne"})
+   ```
+   **Title** : `Statut — Bretagne`.
+5. Options du Status Panel : **Thresholds** → **Number Threshold**, **Warning** `2`, **Critical** `1` ; **Aggregation** : `Last`.
+   Résultat attendu : pavé vert. **Back**.
+6. Nouveau panel → **Change** → **D3 Gauge** ; **Code**, copier-coller :
    ```promql
    sum(rate(telcea_link_bytes_total{link="REN-PAR"}[5m])) * 8 / sum(telcea_link_capacity_bits_per_second{link="REN-PAR"}) * 100
    ```
-   **Unit** `Percent (0-100)`, **Min** `0`, **Max** `100`.
-   Résultat attendu : aiguille entre 20 et 45 en journée.
-4. **Save**.
+   **Title** : `Utilisation REN-PAR` ; **Unit** `Percent (0-100)`, **Min** `0`, **Max** `100`.
+   Résultat attendu : aiguille entre 20 et 45 en journée. **Back**.
+7. **Save** → **Exit edit**.
+
+### Si bloqué
+Écran mural importé par la formatrice (rattrapage, utilisé au M08).
 
 ### Critères de réussite
-- [ ] Pavé de statut vert avec 2 indicateurs nommés
+- [ ] Pavé de statut vert
 - [ ] Jauge en %
 
 ---
 
-## Exercice 07.3 ⭐⭐ — Le schéma du réseau avec Flow (semi-autonome)
+## Défis facultatifs (en cas d'avance)
+
+## Défi 07.1b ⭐⭐ — Signatures et installation en ligne de commande
+**Durée** : 10 min · **Objectif** : vérifier la confiance accordée à un plugin et installer sans interface
+**Énoncé** :
+1. Catalogue : pour chacun des 4 plugins, onglet **Overview** → relever **Signature**, **Installed Version** / **Latest Version**, **Dependencies**.
+2. Plusieurs « Status Panel » existent (Vonage, Tech Ben) : comparer éditeur et badge.
+3. Dans un terminal du bureau Linux, désinstaller D3 Gauge dans l'interface puis le réinstaller en ligne de commande :
+   ```bash
+   cd ~/grafana-training/stack
+   docker compose exec grafana grafana cli plugins install briangann-gauge-panel
+   docker compose restart grafana
+   ```
+**Critères de réussite** :
+- [ ] Signature de chacun relevée (2 « Grafana », 2 « community »)
+- [ ] D3 Gauge de nouveau **Installed** après le redémarrage
+
+---
+
+## Défi 07.2b ⭐⭐ — Second indicateur du Status Panel
+**Durée** : 10 min · **Objectif** : un pavé de statut multi-indicateurs
+**Énoncé** : dans `Statut — Bretagne`, ajouter la requête B `max(telcea_link_packet_loss_ratio{region="Bretagne"})` ; nommer les indicateurs `Sites en service` et `Perte de paquets` (unité `Percent (0.0-1.0)`, seuils `0.01` / `0.02`) ; **Display Alias** : `Always`.
+
+**Indices** : **+ Add field override → Fields returned by query** → **Display name**, **Unit**, seuils du Status Panel.
+
+**Critères de réussite** :
+- [ ] Lignes `Sites en service - 3` et `Perte de paquets - 0.0x%`
+
+---
+
+## Défi 07.3 ⭐⭐ — Le schéma du réseau avec Flow (semi-autonome)
 **Durée** : 15 min · **Objectif** : animer le schéma du réseau Telcéa (liens et régions colorés selon les métriques)
 **Contexte** : remplace le plugin Diagram de l'ancien écran mural.
+**Fichiers fournis** : `~/grafana-training/ateliers/m07/` (bureau Linux) ou dépôt en ligne `grafana-training` : `reseau-telcea.svg` (schéma du réseau) et `flow-config.yaml` (configuration Flow).
 
 **Énoncé** : ajouter un panel **Flow** `Schéma du réseau Telcéa` :
 - **SVG** : contenu de `reseau-telcea.svg` ; **Panel Config** : contenu de `flow-config.yaml` (copier-coller) ;
@@ -80,7 +109,7 @@ Fichiers fournis dans le dépôt de la formation (`~/grafana-training/ateliers/m
 
 ---
 
-## Atelier 07.4 ⭐⭐⭐ — Chasse au plugin (binômes, autonome)
+## Défi 07.4 ⭐⭐⭐ — Atelier « Chasse au plugin » (binômes, autonome)
 **Durée** : 15 min (dont 5 min de restitution) · **Objectif** : choisir un plugin pour un besoin non couvert, avec une grille d'évaluation
 **Contexte** : atelier repris du support historique, adapté à Grafana 13.
 
