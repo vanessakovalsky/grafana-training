@@ -10,7 +10,7 @@ curl -s -u "admin:$(grep ^GRAFANA_ADMIN_PASSWORD .env | cut -d= -f2)" \
 ```
 Sortie attendue :
 ```
-Prometheus http://prometheus:9090
+prometheus http://prometheus:9090
 ```
 Métriques du simulateur dans **Metrics browser** (15) : `telcea_call_attempts_total`, `telcea_call_failures_total`, `telcea_cell_traffic_bytes_total`, `telcea_cell_users`, `telcea_link_bytes_total`, `telcea_link_capacity_bits_per_second`, `telcea_link_packet_loss_ratio`, `telcea_router_cpu_ratio`, `telcea_site_info`, `telcea_site_latency_seconds_bucket`, `telcea_site_latency_seconds_count`, `telcea_site_latency_seconds_sum`, `telcea_site_on_battery`, `telcea_site_temperature_celsius`, `telcea_site_up`.
 
@@ -55,13 +55,13 @@ Résultat : une courbe `cpu_utilisateur` (2 à 20 % selon la charge).
 ## Défi 03.2b ⭐⭐ — Créer soi-même une source InfluxDB
 ### Solution
 **Connections → Data sources → Add new data source → InfluxDB**, puis :
-- **Name** : `InfluxDB (test)`
+- **Name** : `influxdb-test`
 - **Query language** : `SQL`
 - **URL** : `http://influxdb:8181`
 - **Database** : `systeme` ; **Token** : valeur après `INFLUX_TOKEN=` (`grep INFLUX_TOKEN ~/grafana-training/stack/.env`)
 - **Insecure Connection** : activé → **Save & test** : `OK`
 
-Champs enregistrés (API `GET /api/datasources/name/InfluxDB%20(test)`) :
+Champs enregistrés (API `GET /api/datasources/name/influxdb-test`) :
 ```
 "url": "http://influxdb:8181", "jsonData": {"dbName": "systeme", "insecureGrpc": true, "version": "SQL"}
 ```

@@ -6,12 +6,12 @@ Courriels : boîte de test Mailpit de la VM, `https://stagiaire<NN>.<SESSION>.ko
 ## Lab 09.1 ⭐ — Première règle : site radio hors service (guidé)
 **Durée** : 20 min · **Objectif** : créer la règle « Site radio hors service »
 **Contexte** : la nuit, personne ne regarde l'écran du NOC ; une coupure de site doit être signalée automatiquement à l'équipe *radio*.
-**Prérequis** : source `Prometheus`, dossier `NOC Telcéa`
+**Prérequis** : source `prometheus`, dossier `NOC Telcéa`
 
 ### Étapes
 1. **Alerting → Alert rules → New alert rule**.
 2. Section 1 : **Name** `Site radio hors service`.
-3. Section 2 : source `Prometheus`, mode **Code**, copier-coller la requête :
+3. Section 2 : source `prometheus`, mode **Code**, copier-coller la requête :
    ```promql
    telcea_site_up
    ```

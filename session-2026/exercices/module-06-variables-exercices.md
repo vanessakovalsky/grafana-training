@@ -6,14 +6,14 @@ Toutes les requêtes sont fournies : copier-coller, sans retaper.
 ## Lab 06.1 ⭐ — Le tableau de bord régional et sa variable Région (guidé)
 **Durée** : 15 min · **Objectif** : créer « [TLC] Réseau — Détail régional » filtré par une variable `region`
 **Contexte** : l'équipe *radio* veut le détail d'une ou plusieurs régions sans dupliquer l'écran national.
-**Prérequis** : source `Prometheus`, dossier `NOC Telcéa`
+**Prérequis** : source `prometheus`, dossier `NOC Telcéa`
 
 ### Étapes
 1. **Dashboards → NOC Telcéa → New → New dashboard**, mise en page **Custom grid**.
 2. Engrenage (barre de droite) → **Settings** → onglet **Variables** → **New variable**.
 3. Renseigner :
    - **Variable type** : `Query` ; **Name** : `region` ; **Label** : `Région`
-   - **Data source** : `Prometheus` ; **Query type** : `Label values` ; **Label** : `region` ; **Metric** : `telcea_site_info`
+   - **Data source** : `prometheus` ; **Query type** : `Label values` ; **Label** : `region` ; **Metric** : `telcea_site_info`
    - **Selection options** : **Multi-value** activé, **Include All value** activé
    Résultat attendu (aperçu, bas de l'éditeur) : `Bretagne`, `Hauts-de-France`, `Ile-de-France`, `Provence`.
 4. **Back to list** → **Back to dashboard**.
@@ -43,7 +43,7 @@ Tableau de bord importé par la formatrice (rattrapage, 5 s) : **Dashboards → 
 ### Étapes
 1. **Edit** → engrenage → **Settings** → **Variables** → **New variable** :
    - **Variable type** : `Query` ; **Name** : `site` ; **Label** : `Site`
-   - **Data source** : `Prometheus` ; **Query type** : `Classic query`, requête :
+   - **Data source** : `prometheus` ; **Query type** : `Classic query`, requête :
    ```promql
    label_values(telcea_site_info{region=~"$region"}, site)
    ```

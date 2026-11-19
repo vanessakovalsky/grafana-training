@@ -10,7 +10,7 @@ Toutes les requêtes sont fournies : copier-coller, sans retaper.
 
 ### Étapes
 1. Menu ☰ → **Connections** → **Data sources** → **Add new data source** → **Prometheus**.
-2. **Name** : `Prometheus` (P majuscule) ; **Prometheus server URL** : copier-coller `http://prometheus:9090`. Ne rien changer d'autre.
+2. **Name** : `prometheus` (minuscules : nom compatible DNS exigé par Grafana 13) ; **Prometheus server URL** : copier-coller `http://prometheus:9090`. Ne rien changer d'autre.
 3. Bouton **Save & test** (tout en bas de la page).
    Résultat attendu : `Successfully queried the Prometheus API.`
 4. Bouton **Explore data** (en haut de la page).
@@ -27,7 +27,7 @@ Toutes les requêtes sont fournies : copier-coller, sans retaper.
    **Run query**. Résultat attendu : 4 courbes, une par région (nombre d'abonnés connectés).
 
 ### Si bloqué
-Source créée par la formatrice (rattrapage, 5 s) → reprise à l'étape 4 : menu ☰ → **Explore**, source `Prometheus`.
+Source créée par la formatrice (rattrapage, 5 s) → reprise à l'étape 4 : menu ☰ → **Explore**, source `prometheus`.
 
 ### Critères de réussite
 - [ ] Message `Successfully queried the Prometheus API.`
@@ -65,7 +65,7 @@ Source créée par la formatrice (rattrapage, 5 s) → reprise à l'étape 4 : m
 **Durée** : 10 min · **Objectif** : raccorder InfluxDB 3 en SQL, jeton compris
 **Contexte** : le jeton d'accès n'est disponible que sur la VM (bureau Linux requis).
 
-**Énoncé** : créer une source `InfluxDB (test)` identique à `InfluxDB`, puis l'utiliser dans Explore avec la requête du Lab 03.2.
+**Énoncé** : créer une source `influxdb-test` identique à `InfluxDB`, puis l'utiliser dans Explore avec la requête du Lab 03.2.
 
 **Indices** :
 - Jeton, dans un terminal du bureau : `grep INFLUX_TOKEN ~/grafana-training/stack/.env` (valeur après `=`)

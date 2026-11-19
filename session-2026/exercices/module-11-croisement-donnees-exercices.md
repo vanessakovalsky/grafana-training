@@ -6,12 +6,12 @@ Toutes les requêtes sont fournies : copier-coller, sans retaper.
 ## Lab 11.1 ⭐ — Deux sources dans un panel (guidé)
 **Durée** : 10 min · **Objectif** : afficher le CPU de la VM vu par node-exporter (Prometheus) et par Telegraf (InfluxDB) sur un même graphe
 **Contexte** : l'équipe *systeme* soupçonne un collecteur de mal mesurer ; il faut comparer les deux.
-**Prérequis** : sources `Prometheus` et `InfluxDB` (M03)
+**Prérequis** : sources `prometheus` et `InfluxDB` (M03)
 
 ### Étapes
 1. **Dashboards → NOC Telcéa → New → New dashboard**, **Custom grid** ; **Save** : `[TLC] Croisement — Réseau et système`, dossier `NOC Telcéa`.
 2. Panneau **Add** → **Panel** → **Configure visualization** ; sélecteur **Data source** : `-- Mixed --`.
-3. Requête A, source `Prometheus` (mode Code), légende `node-exporter` :
+3. Requête A, source `prometheus` (mode Code), légende `node-exporter` :
    ```promql
    100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m])))
    ```
@@ -58,7 +58,7 @@ Tableau de bord importé par la formatrice (rattrapage, 5 s) : lecture des panel
 **Durée** : 15 min · **Objectif** : un tableau d'une ligne par site, 6 colonnes issues de 4 requêtes
 **Contexte** : le responsable *radio* veut, sur une seule ligne par site, l'état, les abonnés, le débit, le débit par abonné et la latence (ancien besoin couvert par Boom Table).
 
-**Énoncé** : panel Table `Synthèse par site` (source `Prometheus`) avec 4 requêtes en **Instant** / **Format Table** :
+**Énoncé** : panel Table `Synthèse par site` (source `prometheus`) avec 4 requêtes en **Instant** / **Format Table** :
 abonnés par site et région, débit descendant par site, latence au 95e centile par site, état par site.
 Résultat : colonnes `Site`, `Région`, `État` (mapping coloré), `Abonnés`, `Débit descendant` (b/s), `Débit par abonné` (b/s), `Latence p95` (s, rouge au-dessus de 100 ms), trié par abonnés décroissants.
 

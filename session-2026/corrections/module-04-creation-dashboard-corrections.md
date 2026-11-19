@@ -24,7 +24,7 @@ Sortie attendue :
 | Symptôme | Cause | Déblocage |
 |---|---|---|
 | Tableau de bord dans **Dashboards** (racine) | Dossier non choisi à l'enregistrement | Settings → **Folder** → `NOC Telcéa` → **Save** |
-| Panel vide, `No data` | Source autre que `Prometheus`, ou texte collé en mode **Builder** | Source `Prometheus` ; **Code** avant de coller |
+| Panel vide, `No data` | Source autre que `prometheus`, ou texte collé en mode **Builder** | Source `prometheus` ; **Code** avant de coller |
 | Requête non exécutée | Curseur resté dans la zone de requête | Cliquer en dehors de la zone |
 | Modifications perdues | Page quittée sans **Save** | Refaire, puis **Save** |
 

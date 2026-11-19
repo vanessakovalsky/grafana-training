@@ -6,7 +6,7 @@ Toutes les requêtes sont fournies : copier-coller, sans retaper.
 ## Lab 04.1 ⭐ — Créer le tableau de bord du NOC (guidé)
 **Durée** : 15 min · **Objectif** : créer « [TLC] Réseau — Vue nationale » dans le dossier « NOC Telcéa », avec un premier panel
 **Contexte** : le NOC de Telcéa remplace ses indicateurs dispersés par un écran unique.
-**Prérequis** : source `Prometheus` (M03)
+**Prérequis** : source `prometheus` (M03)
 
 ### Étapes
 1. Menu ☰ → **Dashboards** → bouton **New** → **New folder** : nom `NOC Telcéa` → **Create**.
