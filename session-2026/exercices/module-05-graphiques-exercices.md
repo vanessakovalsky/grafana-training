@@ -44,8 +44,10 @@ Astuce : champ de recherche en haut des options du panel (taper `unit`, `thresho
    - **Value** `1` → **Display text** `En service`, couleur verte
    - **Value** `0` → **Display text** `Hors service`, couleur rouge
    → **Update**.
-   Résultat attendu : colonne `Value` affichant `En service` en vert.
-5. **Back** → **Save** → **Exit edit**.
+   Résultat attendu : colonne `Value` affichant `En service` (texte encore sans couleur).
+5. Couleur de la cellule : options à droite → **Overrides** (tout en bas) → **Add field override** → **Fields with name** → `Value` → **Add override property** → **Cell options > Cell type** → `Colored background`.
+   Résultat attendu : cellules `En service` sur fond vert.
+6. **Back** → **Save** → **Exit edit**.
 
 Panel `État des sites` déjà présent (rattrapage) → reprise à l'étape 3, en éditant ce panel.
 
