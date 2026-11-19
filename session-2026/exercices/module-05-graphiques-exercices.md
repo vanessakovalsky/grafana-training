@@ -1,61 +1,79 @@
 # Module 05 — Exercices
 
-Point de départ : tableau de bord « [TLC] Réseau — Vue nationale » de fin de M04 (rattrapage possible, voir le guide formateur).
+Parcours essentiel = Labs 05.1 et 05.2 (tout le groupe). Défis = facultatifs, en cas d'avance.
+Point de départ : tableau de bord « [TLC] Réseau — Vue nationale » du M04 (sinon rattrapage par la formatrice, 5 s).
+Astuce : champ de recherche en haut des options du panel (taper `unit`, `thresholds`…).
 
-## Lab 05.1 ⭐ — Unités, calculs et seuils (guidé)
-**Durée** : 20 min · **Objectif** : rendre lisibles les 4 panels existants (unités, couleurs d'état)
+## Lab 05.1 ⭐ — Unités et couleurs (guidé)
+**Durée** : 15 min · **Objectif** : rendre lisibles 3 panels (unités, couleurs d'état)
 **Contexte** : sur l'écran mural du NOC, `776475341` ne veut rien dire ; `776 Mb/s` si.
 **Prérequis** : Lab 04.2
 
 ### Étapes
-1. **Edit**, puis survoler le panel `Sites en service` → **Edit** (menu du panel, ou touche `e`).
-2. Options à droite (champ de recherche en haut des options) :
-   - **Value options → Calculation** : `Last *`
-   - **Stat styles → Color mode** : `Background Solid` ; **Graph mode** : `None`
-   - **Thresholds** : base `Red`, `+ Add threshold` → `10` en `Orange`, `+ Add threshold` → `12` en `Green`
-   Résultat attendu : `12` sur fond vert. **Back**.
-3. Panel `Débit descendant par région` : **Standard options → Unit** → `Data rate / bits/sec(SI)`.
-   Résultat attendu : axe en `Mb/s` (ex. `800 Mb/s`).
-4. Panel `Abonnés par région` : **Unit** → `Misc / None`.
-5. Panel `Utilisation des liens de collecte` :
-   - **Unit** : `Misc / Percent (0.0-1.0)` ; **Min** : `0` ; **Max** : `1`
-   - **Thresholds** : base `Green`, `0.8` `Orange`, `0.9` `Red`
-   - **Thresholds → Show thresholds** : `As lines (dashed)`
-   Résultat attendu : axe de 0 % à 100 %, lignes pointillées à 80 % et 90 %.
-6. **Save** (message : `Unités et seuils`), **Exit edit**.
+1. Bouton **Edit** (en haut à droite), puis survoler le panel `Sites en service` → menu du panel (⋮) → **Edit**.
+2. Options à droite, rubrique **Thresholds** :
+   - seuil de base (`Base`) : couleur `Red`
+   - remplacer la valeur `80` par `12`, couleur `Green`
+   Résultat attendu : `12` en vert. Bouton **Back**.
+3. Panel `Débit descendant par région` → **Edit** → **Standard options → Unit** : taper `bits/sec`, choisir `bits/sec(SI)`.
+   Résultat attendu : axe en `Mb/s`. **Back**.
+4. Panel `Utilisation des liens de collecte` → **Edit** → **Unit** : taper `percent`, choisir `Percent (0.0-1.0)`.
+   Résultat attendu : axe en `%`. **Back**.
+5. **Save** → **Exit edit**.
 
 ### Critères de réussite
-- [ ] `12` sur fond vert
-- [ ] Débit en `Mb/s`, liens en `%` avec 2 lignes pointillées
+- [ ] `12` en vert ; débit en `Mb/s` ; liens en `%`
 
 ---
 
-## Lab 05.2 ⭐ — Un tableau d'état lisible (guidé)
-**Durée** : 15 min · **Objectif** : réduire le tableau `État des sites` à 4 colonnes, état en clair et en couleur
+## Lab 05.2 ⭐ — Un tableau d'état des sites (guidé)
+**Durée** : 15 min · **Objectif** : un tableau d'une ligne par site, état en clair et en couleur
 **Contexte** : le technicien d'astreinte doit voir d'un coup d'œil quel site est hors service.
-**Prérequis** : exercice 04.3 (tableau `État des sites`)
+**Prérequis** : Lab 05.1
 
 ### Étapes
-1. Éditer le panel `État des sites`. Vérifier la requête : `telcea_site_up`, **Options** → **Type** `Instant`, **Format** `Table`.
-2. Onglet **Transformations** → **Add transformation** → **Organize fields by name** :
-   - masquer (icône œil) `Time`, `__name__`, `instance`, `job`
-   - renommer `site` → `Site`, `region` → `Région`, `techno` → `Techno`, `Value` → `État`
-   - ordre : Site, Région, Techno, État (glisser-déposer)
-3. Options → **Value mappings** → **Add value mappings** :
-   - **Value** `1` → texte `En service`, couleur verte
-   - **Value** `0` → texte `Hors service`, couleur rouge
+1. **Edit** → panneau **Add** → **Panel** → **Configure visualization** → **Code**, copier-coller :
+   ```promql
+   telcea_site_up
+   ```
+   Sous la requête, **Options** : **Type** `Instant`, **Format** `Table`.
+2. Visualisation : bouton **Change** → **Table**. **Title** : `État des sites`.
+   Résultat attendu : 12 lignes, une par site.
+3. Onglet **Transformations** (sous le panel) → **Add transformation** → **Organize fields by name** : masquer (icône œil) `Time`, `__name__`, `instance`, `job`.
+4. Options à droite → **Value mappings** → **Add value mappings** :
+   - **Value** `1` → **Display text** `En service`, couleur verte
+   - **Value** `0` → **Display text** `Hors service`, couleur rouge
    → **Update**.
-4. **+ Add field override** → **Fields with name** → `État` → **Add override property** → **Cell options > Cell type** → `Colored background`.
-5. Si la colonne `État` est masquée (défilement) : **Standard options** non concernées → **Table → Column width** : `100`.
-6. **Back**, **Save** (message : `Tableau des sites`).
+   Résultat attendu : colonne `Value` affichant `En service` en vert.
+5. **Back** → **Save** → **Exit edit**.
+
+Panel `État des sites` déjà présent (rattrapage) → reprise à l'étape 3, en éditant ce panel.
 
 ### Critères de réussite
-- [ ] 4 colonnes : Site, Région, Techno, État
-- [ ] 12 cellules `En service` sur fond vert
+- [ ] 12 lignes `En service`, sans les colonnes `Time`, `__name__`, `instance`, `job`
 
 ---
 
-## Exercice 05.3 ⭐⭐ — Carte, disponibilité, jauges (semi-autonome)
+## Défis facultatifs (en cas d'avance)
+
+## Défi 05.2b ⭐⭐ — Finitions des panels
+**Durée** : 10 min · **Objectif** : pousser le réglage des panels existants
+**Énoncé** :
+1. `Sites en service` : fond plein coloré, sans mini-graphique ; seuil orange à `10`.
+2. `Utilisation des liens de collecte` : axe de 0 % à 100 %, seuils orange à 80 %, rouge à 90 %, affichés en lignes pointillées.
+3. `État des sites` : colonnes renommées et ordonnées `Site`, `Région`, `Techno`, `État` ; cellule `État` en fond coloré.
+
+**Indices** :
+- **Stat styles → Color mode** / **Graph mode** ; **Thresholds → Show thresholds**
+- **Organize fields by name** : renommage et glisser-déposer
+- **+ Add field override → Fields with name** → **Cell options > Cell type** → `Colored background`
+
+**Critères de réussite** :
+- [ ] `12` sur fond vert ; lignes pointillées à 80 % et 90 % ; 4 colonnes nommées
+
+---
+
+## Défi 05.3 ⭐⭐ — Carte, disponibilité, jauges (semi-autonome)
 **Durée** : 25 min · **Objectif** : ajouter 2 lignes et 5 panels aux visualisations adaptées
 **Contexte** : le responsable du NOC veut voir OÙ sont les sites, DEPUIS QUAND ils sont en service, et l'état de la VM de supervision.
 

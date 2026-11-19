@@ -1,69 +1,88 @@
 # Module 04 — Exercices
 
+Parcours essentiel = Labs 04.1 et 04.2 (tout le groupe). Défis = facultatifs, en cas d'avance.
+Toutes les requêtes sont fournies : copier-coller, sans retaper.
+
 ## Lab 04.1 ⭐ — Créer le tableau de bord du NOC (guidé)
 **Durée** : 15 min · **Objectif** : créer « [TLC] Réseau — Vue nationale » dans le dossier « NOC Telcéa », avec un premier panel
 **Contexte** : le NOC de Telcéa remplace ses indicateurs dispersés par un écran unique.
-**Prérequis** : M03 (source `Prometheus` par défaut)
+**Prérequis** : source `Prometheus` (M03)
 
 ### Étapes
-1. Menu **Dashboards → New → New folder** : nom `NOC Telcéa` → **Create**.
-2. Dans le dossier, **New → New dashboard**.
+1. Menu ☰ → **Dashboards** → bouton **New** → **New folder** : nom `NOC Telcéa` → **Create**.
+2. Dans le dossier : **New** → **New dashboard**.
 3. Sous **Select layout**, choisir **Custom grid**.
-4. Panneau **Add** (à droite) : cliquer sur la vignette **Panel**, puis **Configure visualization** dans le panel créé.
-5. Requête (mode **Code**) :
+4. Panneau **Add** (à droite) : cliquer sur **Panel**, puis sur **Configure visualization** dans le panel créé.
+5. À droite de la zone de requête : **Code**, puis copier-coller :
    ```promql
    sum by (region) (telcea_cell_users)
    ```
-   **Options** de la requête → **Legend** : **Custom**, saisir `{{region}}`.
-   Résultat attendu : 4 courbes nommées `Bretagne`, `Hauts-de-France`, `Ile-de-France`, `Provence`.
-6. Options à droite : **Title** = `Abonnés par région`. Cliquer sur **Back** (en haut à droite).
-7. **Save** : **Title** = `[TLC] Réseau — Vue nationale`, **Folder** = `NOC Telcéa` → **Save**.
-8. Icône d'engrenage (barre latérale droite, mode édition) → **Settings**, onglet **General** :
-   - **Description** : `Supervision nationale du réseau radio et transport de Telcéa (NOC).`
-   - **Tags** : `telcea`, `reseau`, `noc` (touche Entrée après chaque tag)
-   Puis **Save** (message : `Description et tags`).
-9. Barre du haut : plage `Last 6 hours`, rafraîchissement `30s` (liste à droite de **Refresh**), **Save**, **Exit edit**.
+   Cliquer en dehors de la zone de requête. Résultat attendu : 4 courbes.
+6. Options à droite, champ **Title** : `Abonnés par région`. Bouton **Back** (en haut à droite).
+7. Bouton **Save** (en haut à droite) : **Title** `[TLC] Réseau — Vue nationale`, **Folder** `NOC Telcéa` → **Save**.
+
+### Si bloqué
+Tableau de bord importé par la formatrice (rattrapage, 5 s) : **Dashboards → NOC Telcéa**.
 
 ### Critères de réussite
-- [ ] Tableau de bord visible dans **Dashboards → NOC Telcéa**, 3 tags affichés
-- [ ] Rechargement de la page (`F5`) : plage `Last 6 hours` et rafraîchissement `30s` conservés
+- [ ] Tableau de bord visible dans **Dashboards → NOC Telcéa**, avec 4 courbes
 
 ---
 
-## Lab 04.2 ⭐ — Organiser en lignes et ajouter 4 panels (guidé)
-**Durée** : 20 min · **Objectif** : obtenir 3 lignes (Synthèse, Radio, Transport) et 5 panels
-**Contexte** : l'équipe *radio* et l'équipe *transport* consultent le même écran, chacune sa ligne.
+## Lab 04.2 ⭐ — Ajouter 3 panels (guidé)
+**Durée** : 20 min · **Objectif** : compléter le tableau de bord avec un chiffre clé et deux graphiques
+**Contexte** : l'équipe *radio* et l'équipe *transport* consultent le même écran.
 **Prérequis** : Lab 04.1
 
+Méthode, identique pour chaque panel : bouton **Edit** (si besoin) → panneau **Add** → **Panel** → **Configure visualization** → **Code** → copier-coller la requête → **Title** → **Back**.
+
 ### Étapes
-1. **Edit** → panneau **Add** → **Add row** trois fois. Renommer les lignes (clic sur le titre de la ligne, champ **Title** à droite) : `Synthèse`, `Radio`, `Transport`.
-2. Glisser le panel `Abonnés par région` dans la ligne `Radio` (poignée du titre du panel).
-3. Ajouter dans `Synthèse` un panel **Stat** :
-   - Requête : `sum(telcea_site_up)` ; **Options** → **Type** : `Instant`
-   - Visualisation : bouton **Change** (en haut des options) → **Stat**
-   - **Title** : `Sites en service`
+1. Panel `Sites en service` :
+   ```promql
+   sum(telcea_site_up)
+   ```
+   Visualisation : bouton **Change** (en haut des options, à droite) → **Stat**.
    Résultat attendu : grand chiffre `12`.
-4. Ajouter dans `Radio` un panel **Time series** `Débit descendant par région` :
+2. Panel `Débit descendant par région` (Time series, visualisation par défaut) :
    ```promql
    sum by (region) (rate(telcea_cell_traffic_bytes_total{direction="down"}[5m])) * 8
    ```
-   Légende `{{region}}`.
-5. Ajouter dans `Transport` un panel **Time series** `Utilisation des liens de collecte` :
+3. Panel `Utilisation des liens de collecte` (Time series) :
    ```promql
    sum by (link) (rate(telcea_link_bytes_total[5m])) * 8 / sum by (link) (telcea_link_capacity_bits_per_second)
    ```
-   Légende `{{link}}`. Résultat attendu : 3 courbes entre 0,2 et 0,5 en journée.
-6. Ajuster tailles et positions (coin inférieur droit des panels), puis **Save** et **Exit edit**.
-7. Replier la ligne `Transport` (clic sur son titre) puis la déplier.
+   Résultat attendu : 3 courbes entre 0,2 et 0,5 en journée.
+4. Agrandir ou déplacer les panels à la souris (coin inférieur droit, titre), puis **Save** → **Exit edit**.
+
+Unités brutes à ce stade (grands nombres, ratios) : réglées au M05.
 
 ### Critères de réussite
-- [ ] 3 lignes dans l'ordre Synthèse, Radio, Transport
-- [ ] 4 panels affichant des données (`12` pour le Stat)
-- [ ] Unités brutes à ce stade (octets, ratios) : réglées au M05
+- [ ] 4 panels avec des données, dont le chiffre `12`
 
 ---
 
-## Exercice 04.3 ⭐⭐ — Choisir les widgets du NOC (semi-autonome)
+## Défis facultatifs (en cas d'avance)
+
+## Défi 04.2b ⭐⭐ — Finitions : légendes, lignes, réglages
+**Durée** : 15 min · **Objectif** : rendre le tableau de bord lisible et organisé
+**Contexte** : l'écran est partagé par les équipes *radio* et *transport*.
+
+**Énoncé** :
+1. Légendes lisibles : `Bretagne` au lieu de `{region="Bretagne"}` sur les panels par région, nom du lien sur le panel des liens.
+2. Trois lignes (rows) dans l'ordre `Synthèse` (Stat), `Radio` (abonnés, débit), `Transport` (liens).
+3. Réglages du tableau de bord : description, tags `telcea`, `reseau`, `noc` ; plage `Last 6 hours` et rafraîchissement `30s` conservés après `F5`.
+
+**Indices** :
+- Légende : **Options** de la requête → **Legend** → **Custom** → `{{region}}` ou `{{link}}`
+- Lignes : panneau **Add** → **Add row**, puis glisser les panels par leur titre
+- Réglages : engrenage (barre latérale droite, mode édition) → **Settings**
+
+**Critères de réussite** :
+- [ ] 3 lignes, légendes sans accolades, 3 tags
+
+---
+
+## Défi 04.3 ⭐⭐ — Choisir les widgets du NOC (semi-autonome)
 **Durée** : 15 min · **Objectif** : choisir et ajouter le widget adapté à 3 besoins exprimés par le NOC
 **Contexte** : le responsable du NOC formule trois demandes pour la ligne `Synthèse`.
 

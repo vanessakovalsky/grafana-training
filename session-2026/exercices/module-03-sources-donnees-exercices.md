@@ -1,58 +1,49 @@
 # Module 03 — Exercices
 
-## Lab 03.1 ⭐ — Raccorder Prometheus et explorer le réseau (guidé)
-**Durée** : 20 min · **Objectif** : obtenir `Successfully queried the Prometheus API.` puis afficher 3 requêtes dans Explore
+Parcours essentiel = Labs 03.1 et 03.2 (tout le groupe). Défis = facultatifs, en cas d'avance.
+Toutes les requêtes sont fournies : copier-coller, sans retaper.
+
+## Lab 03.1 ⭐ — Raccorder Prometheus et voir le réseau (guidé)
+**Durée** : 15 min · **Objectif** : brancher Grafana sur Prometheus et afficher les sites du réseau
 **Contexte** : le NOC de Telcéa raccorde la base de métriques du réseau à Grafana.
-**Prérequis** : M02 (session `admin`)
+**Prérequis** : session `admin` ouverte
 
 ### Étapes
-1. Menu **Connections → Data sources → Add new data source**, choisir **Prometheus**.
-2. Renseigner **Name** : `Prometheus` ; **Prometheus server URL** : `http://prometheus:9090`. Laisser les autres champs par défaut.
-3. Cliquer sur **Save & test** (bas de page).
-   Résultat attendu :
-   ```
-   Successfully queried the Prometheus API.
-   ```
-4. Cliquer sur **Explore data** (haut de page), passer l'éditeur en **Code** (bouton à droite de la requête), saisir puis exécuter (`Shift + Entrée` ou bouton **Run query**) :
+1. Menu ☰ → **Connections** → **Data sources** → **Add new data source** → **Prometheus**.
+2. **Name** : `Prometheus` (P majuscule) ; **Prometheus server URL** : copier-coller `http://prometheus:9090`. Ne rien changer d'autre.
+3. Bouton **Save & test** (tout en bas de la page).
+   Résultat attendu : `Successfully queried the Prometheus API.`
+4. Bouton **Explore data** (en haut de la page).
+5. À droite de la zone de requête, cliquer sur **Code**, puis copier-coller :
    ```promql
    telcea_site_up
    ```
-   Résultat attendu : 12 courbes à `1` (une par site), légende `telcea_site_up{instance="simulateur:9200", job="telcea-reseau", region="Bretagne", site="REN-01", techno="5G"}` pour la première.
-5. Remplacer la requête par :
+   Bouton **Run query** (en haut à droite).
+   Résultat attendu : courbes à `1` = sites en service.
+6. Remplacer la requête par :
    ```promql
    sum by (region) (telcea_cell_users)
    ```
-   Résultat attendu : 4 courbes (une par région), Île-de-France au-dessus de 2 000 abonnés en journée.
-6. Ouvrir **Metrics browser**, taper `telcea_` : noter les 15 métriques du simulateur.
-7. Plage de temps (en haut à droite) : choisir **Last 6 hours** et observer l'évolution des abonnés.
+   **Run query**. Résultat attendu : 4 courbes, une par région (nombre d'abonnés connectés).
+
+### Si bloqué
+Source créée par la formatrice (rattrapage, 5 s) → reprise à l'étape 4 : menu ☰ → **Explore**, source `Prometheus`.
 
 ### Critères de réussite
-- [ ] Source `Prometheus` enregistrée, test réussi, cochée par défaut (**Default**)
-- [ ] 12 séries pour `telcea_site_up`, 4 séries pour la somme par région
+- [ ] Message `Successfully queried the Prometheus API.`
+- [ ] 4 courbes pour la somme par région
 
 ---
 
-## Lab 03.2 ⭐ — Raccorder InfluxDB 3 en SQL (guidé)
-**Durée** : 15 min · **Objectif** : interroger en SQL les mesures système de la VM depuis Grafana
-**Contexte** : l'équipe *systeme* stocke les mesures de la VM de supervision dans InfluxDB (collecteur Telegraf).
-**Prérequis** : Lab 03.1
+## Lab 03.2 ⭐ — Interroger InfluxDB en SQL (guidé)
+**Durée** : 10 min · **Objectif** : afficher l'utilisation processeur de la VM depuis InfluxDB
+**Contexte** : l'équipe *systeme* stocke les mesures de la VM de supervision dans InfluxDB.
+**Prérequis** : source `InfluxDB` déjà créée par la formatrice (jeton secret, présent seulement sur la VM)
 
 ### Étapes
-1. Récupérer le jeton InfluxDB : dans le bureau Linux, ouvrir un terminal et taper :
-   ```bash
-   grep INFLUX_TOKEN ~/grafana-training/stack/.env
-   ```
-   Résultat attendu : `INFLUX_TOKEN=apiv3_` suivi d'une longue chaîne. Copier la valeur après `=`.
-2. Menu **Connections → Data sources → Add new data source**, choisir **InfluxDB**.
-3. Renseigner dans cet ordre :
-   - **Name** : `InfluxDB`
-   - **Query language** : `SQL`
-   - **URL** : `http://influxdb:8181`
-   - **Database** : `systeme`
-   - **Token** : valeur copiée à l'étape 1
-   - **Insecure Connection** : activé
-4. **Save & test**. Résultat attendu : message `OK`.
-5. **Explore data**, éditeur en mode code SQL, saisir :
+1. Menu ☰ → **Explore**.
+2. Liste des sources (en haut à gauche) : choisir `InfluxDB`.
+3. Copier-coller la requête :
    ```sql
    SELECT $__dateBin(time) AS time, avg(usage_user) AS cpu_utilisateur
    FROM cpu
@@ -60,16 +51,32 @@
    GROUP BY 1
    ORDER BY 1
    ```
-   Format : **Time series**. Exécuter.
+4. **Format** (sous la requête) : `Time series`. Bouton **Run query**.
    Résultat attendu : une courbe `cpu_utilisateur` entre 2 et 20 (% du temps processeur).
 
 ### Critères de réussite
-- [ ] Source `InfluxDB` enregistrée, test `OK`
-- [ ] Courbe CPU affichée sur la dernière heure
+- [ ] Courbe CPU affichée
 
 ---
 
-## Exercice 03.3 ⭐⭐ — Retrouver ses données (semi-autonome)
+## Défis facultatifs (en cas d'avance)
+
+## Défi 03.2b ⭐⭐ — Créer soi-même une source InfluxDB
+**Durée** : 10 min · **Objectif** : raccorder InfluxDB 3 en SQL, jeton compris
+**Contexte** : le jeton d'accès n'est disponible que sur la VM (bureau Linux requis).
+
+**Énoncé** : créer une source `InfluxDB (test)` identique à `InfluxDB`, puis l'utiliser dans Explore avec la requête du Lab 03.2.
+
+**Indices** :
+- Jeton, dans un terminal du bureau : `grep INFLUX_TOKEN ~/grafana-training/stack/.env` (valeur après `=`)
+- **Query language** `SQL` ; **URL** `http://influxdb:8181` ; **Database** `systeme` ; **Insecure Connection** activé
+
+**Critères de réussite** :
+- [ ] **Save & test** : `OK`
+
+---
+
+## Défi 03.3 ⭐⭐ — Retrouver ses données (semi-autonome)
 **Durée** : 25 min · **Objectif** : répondre à 6 questions du responsable du NOC par une requête chacune
 **Contexte** : réunion de 14 h du NOC ; chaque réponse doit être justifiée par une requête (copie dans un fichier texte).
 
