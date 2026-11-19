@@ -86,10 +86,10 @@ Règles, points de contact et routage créés par la formatrice (rattrapage, 5 s
 
 ## Défi 09.3 ⭐⭐ — La tempête en Bretagne : deux règles de plus
 **Durée** : 25 min · **Objectif** : créer les 2 règles manquantes, vivre l'incident, vérifier le routage
-**Contexte** : 13 h 45, une tempête frappe la Bretagne (déclenchée par la formatrice) : sites coupés, bascule sur batterie, lien de collecte saturé.
+**Contexte** : 14 h 20, une tempête frappe la Bretagne (déclenchée par la formatrice) : sites coupés, bascule sur batterie, lien de collecte saturé.
 
 **Énoncé** :
-1. Avant 13 h 45, créer dans le groupe `telcea-1m` :
+1. Avant 14 h 20, créer dans le groupe `telcea-1m` :
    - `Lien de collecte sature` : utilisation d'un lien > 80 % pendant 2 min, labels `equipe=transport`, `severite=majeure`, résumé citant le lien ;
    - `Site sur batterie` : `telcea_site_on_battery` > 0 pendant 1 min, labels `equipe=radio`, `severite=mineure`.
 2. Pendant la tempête : suivre les états dans **Alert rules** (Normal → Pending → Firing) et noter l'heure de chaque passage.
