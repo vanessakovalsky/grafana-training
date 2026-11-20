@@ -5,7 +5,7 @@
 | Dossier | Contenu |
 |---|---|
 | `exercices/` | Énoncés des labs, un fichier par module |
-| `corrections/` | Corrections publiées au fil de la formation (6 à ce jour) |
+| `corrections/` | Corrections publiées au fil de la formation (7 à ce jour) |
 | `annexes/` | Aide-mémoire, glossaire, ressources |
 | `stack/` | Environnement Docker Compose de la formation (`setup.sh`, `preflight.sh`) |
 | `ateliers/` | Fichiers fournis pour les labs (schéma Flow, squelette de plugin) |
